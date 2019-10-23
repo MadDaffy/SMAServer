@@ -7,4 +7,5 @@ package com.data.server.dataserver.service;
  */
 public interface JsonParseService {
     void parseJsonAndCreate(String jsonMsg);
+    
 }

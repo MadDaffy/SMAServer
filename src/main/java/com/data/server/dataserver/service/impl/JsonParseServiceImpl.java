@@ -33,13 +33,20 @@ public class JsonParseServiceImpl implements JsonParseService {
             e.printStackTrace();
         }
         System.out.println("Принятый JSON" + json);
+
+
+        if ("Authorization".equals(json.get("type"))) {
+
+        }
+
+
         JSONArray jsonArray = (JSONArray) json.get("users");
         List<UserDto> userDtoList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.size(); i++) {
             userDtoList.add(UserDto.builder()
                     .fullName(((JSONObject) jsonArray.get(i)).get("name").toString())
-                    .login(((JSONObject) jsonArray.get(i)).get("login").toString())
+                    .userName(((JSONObject) jsonArray.get(i)).get("login").toString())
                     .password(((JSONObject) jsonArray.get(i)).get("password").toString())
                     .build());
         }

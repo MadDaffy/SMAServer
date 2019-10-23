@@ -4,12 +4,14 @@ import com.data.server.dataserver.dao.UserDao;
 import com.data.server.dataserver.dto.UserDto;
 import com.data.server.dataserver.mapper.UserMapper;
 import com.data.server.dataserver.repository.UserRepository;
+import com.sun.istack.internal.NotNull;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * UserDaoImpl
@@ -35,4 +37,12 @@ public class UserDaoImpl implements UserDao {
     public void createUser(UserDto userDto) {
         userRepository.save(userMapper.toUser(userDto));
     }
+
+    @Override
+    @Transactional
+    public Optional<UserDto> findByUsername(@NotNull String username) {
+        return Optional.ofNullable(userMapper.toUserDto(userRepository.findUserByLogin(username)));
+    }
+
+
 }
