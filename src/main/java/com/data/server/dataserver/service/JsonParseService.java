@@ -1,11 +1,13 @@
 package com.data.server.dataserver.service;
 
+import org.json.simple.JSONObject;
+
 /**
  * JsonParseService
  *
  * @author Dmitriy
  */
 public interface JsonParseService {
-    void parseJsonAndCreate(String jsonMsg);
+    JSONObject parseJsonAndCreate(String jsonMsg);
     
 }

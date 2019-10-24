@@ -4,13 +4,11 @@ import com.data.server.dataserver.dto.UserDto;
 import com.data.server.dataserver.service.JsonParseService;
 import com.data.server.dataserver.service.UserService;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -26,13 +24,20 @@ public class DataServerRequestHandler extends Thread {
     private UserService userService;
     private Socket socket;
     private BufferedInputStream in;
+    private BufferedWriter out;
     private JsonParseService jsonParseService;
+    JSONObject jsonAnswer = new JSONObject();
+
 
     public DataServerRequestHandler(Socket s, UserService userService, JsonParseService jsonParseService) throws IOException {
         this.userService = userService;
         this.jsonParseService = jsonParseService;
         socket = s;
         in = new BufferedInputStream(socket.getInputStream());
+        out = new BufferedWriter(
+                new OutputStreamWriter(
+                        new BufferedOutputStream(socket.getOutputStream())));
+
         start();
 
     }
@@ -40,17 +45,26 @@ public class DataServerRequestHandler extends Thread {
     public void run() {
         try {
             while (true) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-                String line = bufferedReader.readLine();
-                System.out.println(line);
-                jsonParseService.parseJsonAndCreate(line);
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                    String line = bufferedReader.readLine();
+                    System.out.println(line);
+                    jsonAnswer = jsonParseService.parseJsonAndCreate(line);
+                    System.out.println("jsonAnswer " + jsonAnswer);
+                    out.write(jsonAnswer.toJSONString());
+                    out.flush();
 //                userService.createUser(UserDto.builder()
 //                        .fullName(line)
 //                        .build());
 //                System.out.println("users with login "+line+": "+userService.getAllUsersByName(line));
+                }catch (NullPointerException e){
+                    logger.error("NPE::: "+e.getMessage());
+                }
+
             }
         } catch (IOException e) {
            logger.error("IO Error::: " + e.getMessage());
         }
+
     }
 }
