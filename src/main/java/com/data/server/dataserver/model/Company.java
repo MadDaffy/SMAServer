@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Company
@@ -27,5 +28,8 @@ public class Company {
 
     @Column
     private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    private Set<User> users;
 
 }

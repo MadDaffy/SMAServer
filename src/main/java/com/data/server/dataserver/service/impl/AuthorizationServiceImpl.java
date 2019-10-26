@@ -8,6 +8,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.data.server.dataserver.service.impl.jsonType.Authorization;
+
 /**
  * JsonParseServiceImpl
  *
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class AuthorizationServiceImpl implements JsonParseService {
     @Autowired
     UserService userService;
+    CompanyService companyService;
 
     @Override
     public JSONObject parseJsonAndCreate(String jsonMsg) {
@@ -35,7 +38,7 @@ public class AuthorizationServiceImpl implements JsonParseService {
         System.out.println("Принятый JSON " + jsonType);
 
 
-        if ("Authorization".equals(jsonType.get("type"))) {
+        if (Authorization.getJsonTypeNum()==1) {
             System.out.println("jsonType Authorization");
             try {
                 jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
@@ -44,12 +47,13 @@ public class AuthorizationServiceImpl implements JsonParseService {
                 e.printStackTrace();
             }
             if (userService.getUserByUsername(jsonMain.get("login").toString()) != null) {
+
                 if ((jsonMain.get("password")
                         .equals(userService
                                 .getUserByUsername(jsonMain.get("login").toString())
                                 .getPassword()))) {
                     System.out.println("верный лог+пасс");
-                    jsonAnswer.put("type", "Authorization");
+                    jsonAnswer.put("type", Authorization.getJsonTypeNum());
                     jsonSystemAns.put("dt", 1569653340);
                     jsonAnswer.put("system", jsonSystemAns);
                     jsonMainAns.put("login", userService
@@ -61,6 +65,9 @@ public class AuthorizationServiceImpl implements JsonParseService {
                             .getUserByUsername(jsonMain
                                     .get("login").toString())
                             .getFullName());
+                    jsonMainAns.put("companyName", userService
+                                    .getUserByUsername(jsonMain.get("login").toString())
+                                    .getCompanies());
                     jsonAnswer.put("main", jsonMainAns);
 
                 } else {
@@ -93,7 +100,7 @@ public class AuthorizationServiceImpl implements JsonParseService {
     }
 
     private void falseLogOrPass(JSONObject jsonMain, JSONObject jsonAnswer, JSONObject jsonSystemAns, JSONObject jsonMainAns) {
-        jsonAnswer.put("type", "Authorization");
+        jsonAnswer.put("type", Authorization.getJsonTypeNum());
         jsonSystemAns.put("dt", 1569653340);
         jsonAnswer.put("system", jsonSystemAns);
         jsonMainAns.put("login", jsonMain.get("login").toString());

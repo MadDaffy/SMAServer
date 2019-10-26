@@ -3,6 +3,7 @@ package com.data.server.dataserver.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * CompanyDto
@@ -18,6 +19,9 @@ import java.io.Serializable;
 public class CompanyDto implements Serializable {
 
     private Long id;
+
     private String name;
+
+    private Set<UserDto> users;
 
 }
