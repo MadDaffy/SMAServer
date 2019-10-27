@@ -19,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "companies")
+@Table(name = "company")
 public class Company {
 
     @Id
@@ -32,4 +32,6 @@ public class Company {
 //    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
 //    private Set<User> users;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
+    private Set<User> users;
 }

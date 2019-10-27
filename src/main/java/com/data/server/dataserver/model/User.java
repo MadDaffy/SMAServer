@@ -3,6 +3,7 @@ package com.data.server.dataserver.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -31,13 +32,10 @@ public class User {
     @Column
     private String fullName;
 
-    @ManyToMany
-    @JoinTable(name = "user_company",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "company_id", referencedColumnName="id")
-    )
-
-    private Set<Company> companies;
-
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_TO_COMPANY",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_COMPANY_ID")})
+    private Set<Company> companies = new HashSet<>();
 }
 
