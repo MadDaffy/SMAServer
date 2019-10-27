@@ -15,7 +15,7 @@ spring:
             non_contextual_creatin: true
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 
   main:
     allow-bean-definition-overriding: true

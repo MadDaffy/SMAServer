@@ -29,7 +29,7 @@ public class Company {
     @Column
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
-    private Set<User> users;
+//    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+//    private Set<User> users;
 
 }
