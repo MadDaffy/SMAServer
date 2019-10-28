@@ -1,10 +1,13 @@
 package com.data.server.dataserver.dto;
 
-import com.data.server.dataserver.model.Company;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * UserDto
@@ -26,6 +29,6 @@ public class UserDto implements Serializable {
 
     private String fullName;
 
-    private Set<CompanyDto> companies;
+    private List<CompanyDto> companies;
 
 }

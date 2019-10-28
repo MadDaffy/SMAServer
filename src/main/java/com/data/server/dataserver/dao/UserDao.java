@@ -12,10 +12,14 @@ import java.util.List;
  */
 @Repository
 public interface UserDao {
+
     List<UserDto> getAllUsersByName(String name);
-    UserDto getUserByUsername(String username);
+
+    UserDto getUserByLogin(String username);
 
     void createUser(UserDto userDto);
+
+    void updateUser(UserDto userDto);
 
 
 }

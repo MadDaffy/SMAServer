@@ -2,6 +2,7 @@ package com.data.server.dataserver.service.impl;
 
 import com.data.server.dataserver.dao.CompanyDao;
 import com.data.server.dataserver.dto.CompanyDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
  */
 @Service
 public class CompanyServiceImpl implements CompanyService {
+
+    @Autowired
     CompanyDao companyDao;
 
     @Override

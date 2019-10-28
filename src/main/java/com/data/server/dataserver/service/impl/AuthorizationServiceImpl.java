@@ -46,27 +46,27 @@ public class AuthorizationServiceImpl implements JsonParseService {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (userService.getUserByUsername(jsonMain.get("login").toString()) != null) {
+            if (userService.getUserByLogin(jsonMain.get("login").toString()) != null) {
 
                 if ((jsonMain.get("password")
                         .equals(userService
-                                .getUserByUsername(jsonMain.get("login").toString())
+                                .getUserByLogin(jsonMain.get("login").toString())
                                 .getPassword()))) {
                     System.out.println("верный лог+пасс");
                     jsonAnswer.put("type", Authorization.getJsonTypeNum());
                     jsonSystemAns.put("dt", 1569653340);
                     jsonAnswer.put("system", jsonSystemAns);
                     jsonMainAns.put("login", userService
-                            .getUserByUsername(jsonMain
+                            .getUserByLogin(jsonMain
                                     .get("login").toString())
                             .getLogin());
                     jsonMainAns.put("answer", true);
                     jsonMainAns.put("fullname", userService
-                            .getUserByUsername(jsonMain
+                            .getUserByLogin(jsonMain
                                     .get("login").toString())
                             .getFullName());
                     jsonMainAns.put("companyName", userService
-                                    .getUserByUsername(jsonMain.get("login").toString())
+                                    .getUserByLogin(jsonMain.get("login").toString())
                                     .getCompanies());
                     jsonAnswer.put("main", jsonMainAns);
 

@@ -11,9 +11,12 @@ import java.util.List;
  */
 
 public interface UserService {
+
     List<UserDto> getAllUsersByName(String name);
 
-    UserDto getUserByUsername(String username);
+    UserDto getUserByLogin(String username);
 
     void createUser(UserDto userDto);
+
+    void updateUser(UserDto userDto);
 }

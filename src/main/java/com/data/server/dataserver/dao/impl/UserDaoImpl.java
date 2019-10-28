@@ -21,6 +21,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+
     @Autowired
     UserRepository userRepository;
 
@@ -38,8 +39,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public UserDto getUserByUsername(String username){
+    public UserDto getUserByLogin(String username) {
+        //TODO не надо менять метод только в самом последнем вызове. У тебя в итоге метод называется
+        // поиск по имени, а в итоге поиск по логину, в который ты еще и передаешь имя.
+        // Либо меняй всю цепочку методов, либо создавай новый.
         return userMapper.toUserDto(userRepository.findUserByLogin(username));
     }
 
+    @Override
+    public void updateUser(UserDto userDto) {
+        userRepository.saveAndFlush(userMapper.toUser(userDto));
+    }
 }

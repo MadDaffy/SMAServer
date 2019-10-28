@@ -5,8 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 /**
  * Company
@@ -24,14 +30,11 @@ public class Company {
 
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
 
     @Column
     private String name;
 
-//    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
-//    private Set<User> users;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
-    private Set<User> users;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    private List<User> users;
 }
