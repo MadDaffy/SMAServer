@@ -1,4 +1,4 @@
-package com.data.server.dataserver.service.impl;
+package com.data.server.dataserver.service;
 
 import com.data.server.dataserver.dto.CompanyDto;
 

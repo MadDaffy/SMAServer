@@ -100,7 +100,7 @@ public interface UserMapper {
         if (isNull(model) || isNull(dto)) {
             return;
         }
-        if (isEmpty(dto.getCompanies())) {
+        if (isEmpty(model.getCompanies())) {
             return;
         }
 

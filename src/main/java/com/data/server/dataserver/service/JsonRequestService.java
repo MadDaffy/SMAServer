@@ -3,11 +3,10 @@ package com.data.server.dataserver.service;
 import org.json.simple.JSONObject;
 
 /**
- * JsonParseService
+ * JsonRequestService
  *
  * @author Dmitriy
  */
-public interface JsonParseService {
-    JSONObject parseJsonAndCreate(String jsonMsg);
-    
+public interface JsonRequestService {
+    JSONObject parseJsonAndRequest(String jsonMsg);
 }

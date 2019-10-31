@@ -2,6 +2,7 @@ package com.data.server.dataserver.service.impl;
 
 import com.data.server.dataserver.dao.CompanyDao;
 import com.data.server.dataserver.dto.CompanyDto;
+import com.data.server.dataserver.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

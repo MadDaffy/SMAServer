@@ -1,10 +1,6 @@
 package com.data.server.dataserver.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CompanyDto implements Serializable {
 
     private Long id;
@@ -27,5 +24,9 @@ public class CompanyDto implements Serializable {
     private String name;
 
     private List<UserDto> users;
+
+    private List<SensorDto> sensors;
+
+    private List<FieldDto> fields;
 
 }

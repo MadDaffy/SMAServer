@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
  */
 
 public enum jsonType {
-    Authorization(1);
 
+    Authorization(1),
+    UpdateFields(2);
 
     private int jsonTypeNum;
 

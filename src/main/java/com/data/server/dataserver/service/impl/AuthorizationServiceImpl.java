@@ -1,12 +1,17 @@
 package com.data.server.dataserver.service.impl;
 
-import com.data.server.dataserver.service.JsonParseService;
+import com.data.server.dataserver.dto.CompanyDto;
+import com.data.server.dataserver.dto.UserDto;
+import com.data.server.dataserver.service.JsonAuthService;
 import com.data.server.dataserver.service.UserService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 import static com.data.server.dataserver.service.impl.jsonType.Authorization;
 
@@ -16,13 +21,13 @@ import static com.data.server.dataserver.service.impl.jsonType.Authorization;
  * @author Dmitriy
  */
 @Service
-public class AuthorizationServiceImpl implements JsonParseService {
+public class AuthorizationServiceImpl implements JsonAuthService {
     @Autowired
     UserService userService;
-    CompanyService companyService;
+
 
     @Override
-    public JSONObject parseJsonAndCreate(String jsonMsg) {
+    public JSONObject parseJsonAndAuth(String jsonMsg) {
         JSONParser parser = new JSONParser();
         JSONObject jsonType = null;
         JSONObject jsonMain = null;
@@ -46,28 +51,18 @@ public class AuthorizationServiceImpl implements JsonParseService {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (userService.getUserByLogin(jsonMain.get("login").toString()) != null) {
+            UserDto user = userService.getUserByLogin(jsonMain.get("login").toString());
+            if (Objects.nonNull(user)) {
 
-                if ((jsonMain.get("password")
-                        .equals(userService
-                                .getUserByLogin(jsonMain.get("login").toString())
-                                .getPassword()))) {
+                if ((jsonMain.get("password").equals(user.getPassword()))) {
                     System.out.println("верный лог+пасс");
                     jsonAnswer.put("type", Authorization.getJsonTypeNum());
                     jsonSystemAns.put("dt", 1569653340);
                     jsonAnswer.put("system", jsonSystemAns);
-                    jsonMainAns.put("login", userService
-                            .getUserByLogin(jsonMain
-                                    .get("login").toString())
-                            .getLogin());
+                    jsonMainAns.put("login", user.getLogin());
                     jsonMainAns.put("answer", true);
-                    jsonMainAns.put("fullname", userService
-                            .getUserByLogin(jsonMain
-                                    .get("login").toString())
-                            .getFullName());
-                    jsonMainAns.put("companyName", userService
-                                    .getUserByLogin(jsonMain.get("login").toString())
-                                    .getCompanies());
+                    jsonMainAns.put("fullName", user.getFullName());
+                    jsonMainAns.put("companyName", getCompaniesNames(user.getCompanies()));
                     jsonAnswer.put("main", jsonMainAns);
 
                 } else {
@@ -106,5 +101,21 @@ public class AuthorizationServiceImpl implements JsonParseService {
         jsonMainAns.put("login", jsonMain.get("login").toString());
         jsonMainAns.put("answer", false);
         jsonAnswer.put("main", jsonMainAns);
+    }
+
+    private String getCompaniesNames(List<CompanyDto> companyDtoList) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (companyDtoList.isEmpty()) {
+            return stringBuilder.append("Not a member of the company").toString();
+        }
+        if (companyDtoList.size() > 1) {
+            for (CompanyDto companyDto : companyDtoList) {
+                stringBuilder.append(companyDto.getName()).append(", ");
+            }
+            return stringBuilder.toString();
+        }
+
+        return stringBuilder.append(companyDtoList.get(0).getName()).toString();
     }
 }

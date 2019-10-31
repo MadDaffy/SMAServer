@@ -1,9 +1,6 @@
 package com.data.server.dataserver.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +22,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "company")
 public class Company {
 
@@ -37,4 +35,10 @@ public class Company {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
     private List<User> users;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    private List<Field> fields;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    private List<Sensor> sensors;
 }

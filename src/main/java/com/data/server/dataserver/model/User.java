@@ -1,10 +1,6 @@
 package com.data.server.dataserver.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 @Table(name = "users")
 public class User {
     @Id
@@ -50,5 +47,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "USER_COMPANY_ID")})
     private List<Company> companies = new ArrayList<>();
+
+
 }
 

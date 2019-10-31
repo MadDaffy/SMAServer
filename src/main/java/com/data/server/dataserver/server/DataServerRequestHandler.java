@@ -1,12 +1,9 @@
 package com.data.server.dataserver.server;
 
-import com.data.server.dataserver.dto.UserDto;
-import com.data.server.dataserver.service.JsonParseService;
+import com.data.server.dataserver.service.JsonAuthService;
 import com.data.server.dataserver.service.UserService;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,11 +22,11 @@ public class DataServerRequestHandler extends Thread {
     private Socket socket;
     private BufferedInputStream in;
     private BufferedWriter out;
-    private JsonParseService jsonParseService;
+    private JsonAuthService jsonParseService;
     JSONObject jsonAnswer = new JSONObject();
 
 
-    public DataServerRequestHandler(Socket s, UserService userService, JsonParseService jsonParseService) throws IOException {
+    public DataServerRequestHandler(Socket s, UserService userService, JsonAuthService jsonParseService) throws IOException {
         this.userService = userService;
         this.jsonParseService = jsonParseService;
         socket = s;
@@ -44,15 +41,19 @@ public class DataServerRequestHandler extends Thread {
 
     public void run() {
         try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            String authQuery = bufferedReader.readLine();
+            System.out.println(authQuery);
+            jsonAnswer = jsonParseService.parseJsonAndAuth(authQuery);
+            System.out.println("jsonAnswer " + jsonAnswer);
+            out.write(jsonAnswer.toJSONString());
+            out.flush();
+
             while (true) {
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-                    String line = bufferedReader.readLine();
-                    System.out.println(line);
-                    jsonAnswer = jsonParseService.parseJsonAndCreate(line);
-                    System.out.println("jsonAnswer " + jsonAnswer);
-                    out.write(jsonAnswer.toJSONString());
-                    out.flush();
+                    String query = bufferedReader.readLine();
+                    System.out.println("query "+query);
+
 //                userService.createUser(UserDto.builder()
 //                        .fullName(line)
 //                        .build());

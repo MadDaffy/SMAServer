@@ -2,30 +2,31 @@ package com.data.server.dataserver.dto;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * UserDto
+ * FieldDto
  *
  * @author Dmitriy
  */
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
-public class UserDto implements Serializable {
+public class FieldDto {
 
     private Long id;
 
-    private String login;
+    private String name;
 
-    private String password;
+    private String location;
 
-    private String fullName;
+    private String centre;
+
 
     private List<CompanyDto> companies;
 
+    private List<SensorDto> sensors;
 }
