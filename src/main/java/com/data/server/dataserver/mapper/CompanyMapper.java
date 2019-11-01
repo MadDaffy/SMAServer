@@ -43,6 +43,7 @@ public interface CompanyMapper {
 
         fillUsers(companyDto, company);
         fillSensors(companyDto, company);
+        fillFields(companyDto, company);
 
         return company;
     }
@@ -59,6 +60,7 @@ public interface CompanyMapper {
 
         fillUsersDto(company, companyDto);
         fillSensorsDto(company, companyDto);
+        fillFieldsDto(company, companyDto);
 
         return companyDto;
     }
