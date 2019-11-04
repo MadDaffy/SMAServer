@@ -3,11 +3,11 @@ package com.data.server.dataserver.dto;
 import lombok.*;
 
 import javax.persistence.Column;
-import java.io.Serializable;
-import java.util.List;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
- * FieldDto
+ * PointDto
  *
  * @author Dmitriy
  */
@@ -16,21 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-public class FieldDto implements Serializable {
+public class PointDto {
 
     private Long id;
-
-    private String name;
 
     private double latitude;
 
     private double longitude;
 
-
-    private List<CompanyDto> companies;
-
-    private List<SensorDto> sensors;
-
-    private List<PointDto> points;
+    private FieldDto fieldDto;
 }

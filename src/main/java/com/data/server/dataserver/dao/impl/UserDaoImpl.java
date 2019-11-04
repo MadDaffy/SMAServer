@@ -39,11 +39,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public UserDto getUserByLogin(String username) {
+    public UserDto getUserByLogin(String login) {
         //TODO не надо менять метод только в самом последнем вызове. У тебя в итоге метод называется
         // поиск по имени, а в итоге поиск по логину, в который ты еще и передаешь имя.
         // Либо меняй всю цепочку методов, либо создавай новый.
-        return userMapper.toUserDto(userRepository.findUserByLogin(username));
+        return userMapper.toUserDto(userRepository.findUserByLogin(login));
     }
 
     @Override

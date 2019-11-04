@@ -43,7 +43,7 @@ public class AuthorizationServiceImpl implements JsonAuthService {
         System.out.println("Принятый JSON " + jsonType);
 
 
-        if (Authorization.getJsonTypeNum()==1) {
+        if (Authorization.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())) {
             System.out.println("jsonType Authorization");
             try {
                 jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
@@ -64,7 +64,6 @@ public class AuthorizationServiceImpl implements JsonAuthService {
                     jsonMainAns.put("fullName", user.getFullName());
                     jsonMainAns.put("companyName", getCompaniesNames(user.getCompanies()));
                     jsonAnswer.put("main", jsonMainAns);
-
                 } else {
                     falseLogOrPass(jsonMain, jsonAnswer, jsonSystemAns, jsonMainAns);
                     System.out.println("Неверный пароль");
@@ -90,7 +89,10 @@ public class AuthorizationServiceImpl implements JsonAuthService {
 //        for (int i = 0; i < userDtoList.size(); i++) {
 //            userService.createUser(userDtoList.get(i));
 //        }
-        } else System.out.println("Неверный type");
+        } else {
+            falseLogOrPass(jsonMain, jsonAnswer, jsonSystemAns, jsonMainAns);
+            System.out.println("Неверный тип запроса!!!");
+        }
         return jsonAnswer;
     }
 

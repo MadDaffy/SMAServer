@@ -208,8 +208,8 @@ public interface CompanyMapper {
             Field field = new Field();
             field.setId(fieldDto.getId());
             field.setName(fieldDto.getName());
-            field.setLocation(fieldDto.getLocation());
-            field.setCentre(fieldDto.getCentre());
+            field.setLatitude(fieldDto.getLatitude());
+            field.setLongitude(fieldDto.getLongitude());
         }
         model.setFields(data);
     }
@@ -229,8 +229,8 @@ public interface CompanyMapper {
             FieldDto fieldDto = new FieldDto();
             fieldDto.setId(field.getId());
             fieldDto.setName(field.getName());
-            fieldDto.setLocation(field.getLocation());
-            fieldDto.setCentre(field.getCentre());
+            fieldDto.setLatitude(field.getLatitude());
+            fieldDto.setLongitude(field.getLongitude());
         }
         dto.setFields(data);
     }

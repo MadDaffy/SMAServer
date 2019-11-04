@@ -29,10 +29,10 @@ public class Field {
     private String name;
 
     @Column
-    private String location;
+    private double latitude;
 
     @Column
-    private String centre;
+    private double longitude;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -44,4 +44,6 @@ public class Field {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "fields")
     private List<Sensor> sensors;
 
+    @OneToMany(fetch =  FetchType.EAGER, mappedBy = "fields")
+    private List<Point> points;
 }

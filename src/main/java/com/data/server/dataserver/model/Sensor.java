@@ -51,6 +51,7 @@ public class Sensor {
     private double gsmlvl;
 
     @Column
+    @Lob
     private String ground;
 
     @Column
@@ -66,5 +67,5 @@ public class Sensor {
     @JoinTable(name = "SENSOR_TO_FIELD",
             joinColumns = {@JoinColumn(name = "SENSOR_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SENSOR_FIELD_ID")})
-    private List<Company> fields= new ArrayList<>();
+    private List<Field> fields= new ArrayList<>();
 }

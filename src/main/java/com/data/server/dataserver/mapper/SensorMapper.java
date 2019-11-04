@@ -154,8 +154,8 @@ public interface SensorMapper {
             Field field = new Field();
             field.setId(fieldDto.getId());
             field.setName(fieldDto.getName());
-            field.setLocation(fieldDto.getLocation());
-            field.setCentre(fieldDto.getCentre());
+            field.setLongitude(fieldDto.getLongitude());
+            field.setLatitude(fieldDto.getLatitude());
         }
         model.setFields(data);
     }
@@ -175,8 +175,8 @@ public interface SensorMapper {
             FieldDto fieldDto = new FieldDto();
             fieldDto.setId(field.getId());
             fieldDto.setName(field.getName());
-            fieldDto.setLocation(field.getLocation());
-            fieldDto.setCentre(field.getCentre());
+            fieldDto.setLongitude(field.getLongitude());
+            fieldDto.setLatitude(field.getLatitude());
         }
         dto.setFields(data);
     }

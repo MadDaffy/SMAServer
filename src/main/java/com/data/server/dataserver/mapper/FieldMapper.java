@@ -1,13 +1,7 @@
 package com.data.server.dataserver.mapper;
 
-import com.data.server.dataserver.dto.CompanyDto;
-import com.data.server.dataserver.dto.FieldDto;
-import com.data.server.dataserver.dto.SensorDto;
-import com.data.server.dataserver.dto.UserDto;
-import com.data.server.dataserver.model.Company;
-import com.data.server.dataserver.model.Field;
-import com.data.server.dataserver.model.Sensor;
-import com.data.server.dataserver.model.User;
+import com.data.server.dataserver.dto.*;
+import com.data.server.dataserver.model.*;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -39,11 +33,12 @@ public interface FieldMapper {
 
         field.setId(fieldDto.getId());
         field.setName(fieldDto.getName());
-        field.setCentre(fieldDto.getCentre());
-        field.setLocation(fieldDto.getLocation());
+        field.setLatitude(fieldDto.getLatitude());
+        field.setLongitude(fieldDto.getLongitude());
 
         fillCompanies(fieldDto, field);
         fillSensors(fieldDto, field);
+        fillPoints(fieldDto, field);
 
         return field;
     }
@@ -57,11 +52,12 @@ public interface FieldMapper {
 
         fieldDto.setId(field.getId());
         fieldDto.setName(field.getName());
-        fieldDto.setCentre(field.getCentre());
-        fieldDto.setLocation(field.getLocation());
+        fieldDto.setLatitude(field.getLatitude());
+        fieldDto.setLongitude(field.getLongitude());
 
         fillCompaniesDto(field, fieldDto);
         fillSensorsDto(field, fieldDto);
+        fillPointsDto(field, fieldDto);
 
         return fieldDto;
     }
@@ -95,12 +91,6 @@ public interface FieldMapper {
         model.setCompanies(data);
     }
 
-    /**
-     * Update companies dto field from Model after mapping.
-     *
-     * @param dto   dto object
-     * @param model model object
-     */
     @AfterMapping
     default void fillCompaniesDto(Field model,
                                   @MappingTarget FieldDto dto) {
@@ -157,12 +147,6 @@ public interface FieldMapper {
         model.setSensors(data);
     }
 
-    /**
-     * Update companies dto field from Model after mapping.
-     *
-     * @param dto   dto object
-     * @param model model object
-     */
     @AfterMapping
     default void fillSensorsDto(Field model,
                                   @MappingTarget FieldDto dto) {
@@ -189,5 +173,51 @@ public interface FieldMapper {
             sensorDto.setTemperature(sensor.getTemperature());
         }
         dto.setSensors(data);
+    }
+    /**
+     * Update points field from Dto after mapping.
+     *
+     * @param dto   dto object
+     * @param model model object
+     */
+    @AfterMapping
+    default void fillPoints(FieldDto dto,
+                             @MappingTarget Field model) {
+        if (isNull(model) || isNull(dto)) {
+            return;
+        }
+        if (isEmpty(model.getPoints())) {
+            return;
+        }
+
+        List<Point> data = new ArrayList<>();
+        for (PointDto pointDto : dto.getPoints()) {
+            Point point = new Point();
+            point.setId(pointDto.getId());
+            point.setLatitude(pointDto.getLatitude());
+            point.setLongitude(pointDto.getLongitude());
+
+        }
+        model.setPoints(data);
+    }
+
+    @AfterMapping
+    default void fillPointsDto(Field model,
+                                @MappingTarget FieldDto dto) {
+        if (isNull(model) || isNull(dto)) {
+            return;
+        }
+        if (isEmpty(dto.getPoints())) {
+            return;
+        }
+
+        List<PointDto> data = new ArrayList<>();
+        for (Point point : model.getPoints()) {
+            PointDto pointDto = new PointDto();
+            pointDto.setId(point.getId());
+            pointDto.setLatitude(point.getLatitude());
+            pointDto.setLongitude(point.getLongitude());
+        }
+        dto.setPoints(data);
     }
 }

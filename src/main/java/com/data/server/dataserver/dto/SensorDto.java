@@ -2,6 +2,7 @@ package com.data.server.dataserver.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-public class SensorDto {
+public class SensorDto implements Serializable {
 
     private Long id;
 

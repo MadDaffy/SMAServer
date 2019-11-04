@@ -50,6 +50,7 @@ public class DataServerRequestHandler extends Thread {
             out.flush();
 
             while (true) {
+                System.out.println("Ждем запросов к бд");
                 try {
                     String query = bufferedReader.readLine();
                     System.out.println("query "+query);
@@ -59,12 +60,14 @@ public class DataServerRequestHandler extends Thread {
 //                        .build());
 //                System.out.println("users with login "+line+": "+userService.getAllUsersByName(line));
                 }catch (NullPointerException e){
-                    logger.error("NPE::: "+e.getMessage());
+                    logger.error("NPE in query::: "+e.getMessage());
                 }
 
             }
         } catch (IOException e) {
            logger.error("IO Error::: " + e.getMessage());
+        } catch (NullPointerException e){
+            logger.error("NPE in Auth::: "+e.getMessage());
         }
 
     }
