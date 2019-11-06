@@ -27,12 +27,6 @@ public class CompanyDaoImpl implements CompanyDao {
 
     @Override
     @Transactional
-    public List<CompanyDto> getAllCompaniesByName(String name){
-        return companyMapper.toCompanyDtoList(companyRepository.findAllByName(name));
-    }
-
-    @Override
-    @Transactional
     public void creatCompany(CompanyDto companyDto) {
         companyRepository.save(companyMapper.toCompany(companyDto));
     }

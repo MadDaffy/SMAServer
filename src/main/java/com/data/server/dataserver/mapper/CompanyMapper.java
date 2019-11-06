@@ -65,8 +65,6 @@ public interface CompanyMapper {
         return companyDto;
     }
 
-    List<CompanyDto> toCompanyDtoList(List<Company> companies);
-
     /**
      * Update users field from Dto after mapping.
      *

@@ -10,7 +10,5 @@ import java.util.List;
  * @author Dmitriy
  */
 public interface CompanyService {
-    List<CompanyDto> getAllByCompanyName(String name);
-
     void createCompany(CompanyDto companyDto);
 }

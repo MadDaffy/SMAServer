@@ -1,5 +1,6 @@
 package com.data.server.dataserver.service;
 
+import com.data.server.dataserver.service.impl.AuthUserAnswer;
 import org.json.simple.JSONObject;
 
 /**
@@ -8,5 +9,5 @@ import org.json.simple.JSONObject;
  * @author Dmitriy
  */
 public interface JsonAuthService {
-    JSONObject parseJsonAndAuth(String jsonMsg);
+    AuthUserAnswer parseJsonAndAuth(String jsonMsg);
 }

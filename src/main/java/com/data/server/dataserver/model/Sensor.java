@@ -1,6 +1,7 @@
 package com.data.server.dataserver.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name = "sensors")
+@Table(name = "sensor")
 public class Sensor {
     @Id
     @GeneratedValue
@@ -51,7 +52,7 @@ public class Sensor {
     private double gsmlvl;
 
     @Column
-    @Lob
+    @Lob @Type(type = "org.hibernate.type.TextType")
     private String ground;
 
     @Column
@@ -61,11 +62,11 @@ public class Sensor {
     @JoinTable(name = "SENSOR_TO_COMPANY",
             joinColumns = {@JoinColumn(name = "SENSOR_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SENSOR_COMPANY_ID")})
-    private List<Company> companies = new ArrayList<>();
+    private List<Company> companies ;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "SENSOR_TO_FIELD",
             joinColumns = {@JoinColumn(name = "SENSOR_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SENSOR_FIELD_ID")})
-    private List<Field> fields= new ArrayList<>();
+    private List<Field> fields;
 }

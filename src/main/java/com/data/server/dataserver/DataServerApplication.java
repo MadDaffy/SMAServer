@@ -2,6 +2,7 @@ package com.data.server.dataserver;
 
 import com.data.server.dataserver.server.DataServerRequestHandler;
 import com.data.server.dataserver.service.JsonAuthService;
+import com.data.server.dataserver.service.JsonRequestService;
 import com.data.server.dataserver.service.UserService;
 import com.data.server.dataserver.service.CompanyService;
 import org.apache.log4j.Logger;
@@ -25,6 +26,8 @@ public class DataServerApplication implements CommandLineRunner {
     CompanyService companyService;
     @Autowired
     JsonAuthService jsonParseService;
+    @Autowired
+    JsonRequestService jsonRequestService;
 
     public static void main(String[] args) {
         SpringApplication.run(DataServerApplication.class, args);
@@ -40,7 +43,7 @@ public class DataServerApplication implements CommandLineRunner {
                 Socket socket = serverSocket.accept();
                 logger.info("new socked");
                 try {
-                    new DataServerRequestHandler(socket, userService, jsonParseService);
+                    new DataServerRequestHandler(socket, userService, jsonParseService, jsonRequestService);
                 } catch (IOException e) {
                     socket.close();
                     logger.error("socked closed");

@@ -46,7 +46,7 @@ public class User {
     @JoinTable(name = "USER_TO_COMPANY",
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "USER_COMPANY_ID")})
-    private List<Company> companies = new ArrayList<>();
+    private List<Company> companies;
 
 
 }

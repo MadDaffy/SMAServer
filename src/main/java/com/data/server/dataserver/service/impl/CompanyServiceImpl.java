@@ -20,11 +20,6 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyDao companyDao;
 
     @Override
-    public List<CompanyDto> getAllByCompanyName(String name) {
-        return companyDao.getAllCompaniesByName(name);
-    }
-
-    @Override
     public void createCompany(CompanyDto companyDto) {
         companyDao.creatCompany(companyDto);
     }

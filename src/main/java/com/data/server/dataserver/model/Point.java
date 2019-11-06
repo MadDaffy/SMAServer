@@ -16,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 @Builder
-@Table(name = "points")
+@Table(name = "point")
 public class Point {
 
     @Id

@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-@Table(name = "fields")
+@Table(name = "field")
 public class Field {
 
     @Id
@@ -39,11 +39,11 @@ public class Field {
     @JoinTable(name = "FIELD_TO_COMPANY",
             joinColumns = {@JoinColumn(name = "FIELD_ID")},
             inverseJoinColumns = {@JoinColumn(name = "FIELD_COMPANY_ID")})
-    private List<Company> companies = new ArrayList<>();
+    private List<Company> companies;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "fields")
     private List<Sensor> sensors;
 
-    @OneToMany(fetch =  FetchType.EAGER, mappedBy = "fields")
+    @OneToMany(fetch =  FetchType.EAGER, mappedBy = "field")
     private List<Point> points;
 }

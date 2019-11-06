@@ -10,5 +10,5 @@ import java.util.List;
  * @author Dmitriy
  */
 public interface CompanyRepository extends BaseRepository<Company,Long> {
-   List<Company> findAllByName(String name);
+//   List<Company> findAllByName(String name);
 }
