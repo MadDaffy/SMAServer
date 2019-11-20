@@ -30,6 +30,8 @@ public interface FieldMapper {
         }
 
         Field field = new Field();
+        List<Sensor> sensorsToFields = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
 
         field.setId(fieldDto.getId());
         field.setName(fieldDto.getName());

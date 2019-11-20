@@ -39,7 +39,6 @@ public class DataServerRequestHandler extends Thread {
         out = new BufferedWriter(
                 new OutputStreamWriter(
                         new BufferedOutputStream(socket.getOutputStream())));
-
         start();
 
     }
@@ -48,15 +47,24 @@ public class DataServerRequestHandler extends Thread {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String authQuery = bufferedReader.readLine();
+            if(authQuery==null){
+                System.out.println("disconnect at auth: "+ socket.getInetAddress().toString());
+                throw new Exception("socket closed ");
+            }
             System.out.println(authQuery);
+
             authUserAnswer = jsonAuthService.parseJsonAndAuth(authQuery);
             System.out.println("jsonAnswer " + authUserAnswer.getJsonObject());
             out.write(authUserAnswer.getJsonObject().toJSONString());
             out.flush();
             while (true) {
                 System.out.println("Ждем запросов к бд");
-                try {
+
                     String jsonQuery = bufferedReader.readLine();
+                    if(jsonQuery==null){
+                        System.out.println("disconnect at work: "+ socket.getInetAddress().toString());
+                        throw new Exception("socket closed ");
+                    }
                     System.out.println(jsonQuery);
                     jsonAnswer = jsonRequestService.parseJsonAndRequest(jsonQuery, authUserAnswer.getUserDto());
                     System.out.println("jsonAnswer " + jsonAnswer);
@@ -68,15 +76,11 @@ public class DataServerRequestHandler extends Thread {
 //                        .fullName(line)
 //                        .build());
 //                System.out.println("users with login "+line+": "+userService.getAllUsersByName(line));
-                }catch (NullPointerException e){
-                    logger.error("NPE in query::: "+e.getMessage());
-                }
+
 
             }
-        } catch (IOException e) {
-           logger.error("IO Error::: " + e.getMessage());
-        } catch (NullPointerException e){
-            logger.error("NPE in Auth::: "+e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error::: " + e.getMessage());
         }
 
     }

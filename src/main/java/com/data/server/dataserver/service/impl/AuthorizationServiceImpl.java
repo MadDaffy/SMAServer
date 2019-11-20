@@ -26,7 +26,7 @@ public class AuthorizationServiceImpl implements JsonAuthService {
     UserService userService;
 
     @Override
-    public AuthUserAnswer parseJsonAndAuth(String jsonMsg) {
+    public AuthUserAnswer parseJsonAndAuth(String jsonMsg) throws Exception {
         AuthUserAnswer authUserAnswer = new AuthUserAnswer();
         UserDto user = new UserDto();
 
@@ -69,28 +69,13 @@ public class AuthorizationServiceImpl implements JsonAuthService {
 
                 } else {
                     falseLogOrPass(jsonMain, jsonAnswer, jsonSystemAns, jsonMainAns);
-                    System.out.println("Неверный пароль");
+//                    throw new Exception("Неверный пароль");
                 }
             } else {
                 falseLogOrPass(jsonMain, jsonAnswer, jsonSystemAns, jsonMainAns);
-                System.out.println("Неверный логин ");
+//                throw new Exception("Неверный логин ");
             }
-//        JSONArray jsonArray = (JSONArray) json.get("users");
-//        List<UserDto> userDtoList = new ArrayList<>();
-//
-//        for (int i = 0; i < jsonArray.size(); i++) {
-//            userDtoList.add(UserDto.builder()
-//                    .fullName(((JSONObject) jsonArray.get(i)).get("name").toString())
-//                    .username(((JSONObject) jsonArray.get(i)).get("login").toString())
-//                    .password(((JSONObject) jsonArray.get(i)).get("password").toString())
-//                    .build());
-//        }
-//
-//        System.out.println("Распарсили JSON и получили users list " + userDtoList);
-//
-//        for (int i = 0; i < userDtoList.size(); i++) {
-//            userService.createUser(userDtoList.get(i));
-//        }
+
         } else {
             falseLogOrPass(jsonMain, jsonAnswer, jsonSystemAns, jsonMainAns);
             System.out.println("Неверный тип запроса!!!");

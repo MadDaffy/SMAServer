@@ -11,8 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
-import static com.data.server.dataserver.service.impl.jsonType.Authorization;
-import static com.data.server.dataserver.service.impl.jsonType.UpdateFields;
+import static com.data.server.dataserver.service.impl.jsonType.*;
 
 /**
  * RequestServiceImpl
@@ -28,13 +27,7 @@ public class RequestServiceImpl implements JsonRequestService {
         JSONObject jsonType = new JSONObject();
         JSONObject jsonAnswer = new JSONObject();
         JSONObject jsonSystemAns = new JSONObject();
-        JSONObject jsonMainAns = new JSONObject();
-        JSONObject jsonAllFieldsAns = new JSONObject();
-        JSONArray jsonArrayFields = new JSONArray();
-        JSONObject jsonField = new JSONObject();
-        JSONArray locations = new JSONArray();
-        JSONObject location = new JSONObject();
-        JSONObject center = new JSONObject();
+
 
 
         try {
@@ -45,13 +38,21 @@ public class RequestServiceImpl implements JsonRequestService {
         System.out.println("Принятый JSON " + jsonType);
 
         if (UpdateFields.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
-            jsonAnswer.put("type", 2);
+            JSONArray jsonArrayFields = new JSONArray();
+            JSONObject jsonAllFieldsAns = new JSONObject();
+
+            jsonAnswer.put("type", UpdateFields.getJsonTypeNum());
             jsonSystemAns.put("dt", 1569653340);
             jsonAnswer.put("system", jsonSystemAns);
             for (FieldDto fieldDto : userDto.getCompanies().get(0).getFields()){
+                JSONObject jsonField = new JSONObject();
+                JSONObject center = new JSONObject();
+                JSONArray locations = new JSONArray();
+
                 jsonField.put("id", fieldDto.getId());
                 jsonField.put("name", fieldDto.getName());
                 for (PointDto pointDto : fieldDto.getPoints()){
+                    JSONObject location = new JSONObject();
                     location.put("latitude", pointDto.getLatitude());
                     location.put("longitude", pointDto.getLongitude());
 
@@ -72,6 +73,41 @@ public class RequestServiceImpl implements JsonRequestService {
 
             jsonAllFieldsAns.put("fields", jsonArrayFields);
             jsonAnswer.put("main", jsonAllFieldsAns);
+        }
+        if(UpdateSensors.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
+            JSONObject jsonAllSensorsAns = new JSONObject();
+            JSONArray sensors = new JSONArray();
+
+            jsonAnswer.put("type", UpdateSensors.getJsonTypeNum());
+            jsonSystemAns.put("dt", 1569653340);
+            jsonAnswer.put("system", jsonSystemAns);
+            for(SensorDto sensorDto : userDto.getCompanies().get(0).getSensors()) {
+                JSONObject jSonSensor = new JSONObject();
+
+
+
+                jSonSensor.put("id", sensorDto.getId());
+                jSonSensor.put("name", sensorDto.getName());
+                jSonSensor.put("latitude", sensorDto.getLatitude());
+                jSonSensor.put("longitude", sensorDto.getLongitude());
+                jSonSensor.put("temperature", sensorDto.getTemperature());
+                jSonSensor.put("humidity", sensorDto.getHumidity());
+                jSonSensor.put("pressure", sensorDto.getPressure());
+                jSonSensor.put("battery", sensorDto.getBattery());
+                jSonSensor.put("gsmlvl", sensorDto.getGsmlvl());
+                try {
+                    JSONObject jSonGround =(JSONObject)parser.parse(sensorDto.getGround());
+                    jSonSensor.put("ground", jSonGround);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    jSonSensor.put("ground", new JSONObject());
+                }
+                jSonSensor.put("lastUpdate", sensorDto.getLastUpdate().toString());
+
+                sensors.add(jSonSensor);
+            }
+            jsonAllSensorsAns.put("sensors", sensors);
+            jsonAnswer.put("main", jsonAllSensorsAns);
         }
 
         return jsonAnswer;

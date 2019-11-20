@@ -9,5 +9,5 @@ import org.json.simple.JSONObject;
  * @author Dmitriy
  */
 public interface JsonAuthService {
-    AuthUserAnswer parseJsonAndAuth(String jsonMsg);
+    AuthUserAnswer parseJsonAndAuth(String jsonMsg) throws Exception;
 }

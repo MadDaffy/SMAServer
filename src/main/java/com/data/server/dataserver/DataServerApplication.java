@@ -14,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class DataServerApplication implements CommandLineRunner {
@@ -41,12 +43,13 @@ public class DataServerApplication implements CommandLineRunner {
         try {
             while (true) {
                 Socket socket = serverSocket.accept();
-                logger.info("new socked");
+                logger.info("new socket");
                 try {
-                    new DataServerRequestHandler(socket, userService, jsonParseService, jsonRequestService);
+                   new DataServerRequestHandler(socket, userService, jsonParseService, jsonRequestService);
                 } catch (IOException e) {
                     socket.close();
-                    logger.error("socked closed");
+                    logger.error("socket closed");
+                    System.out.println(e);
                 }
             }
         } finally {
