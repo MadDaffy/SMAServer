@@ -1,9 +1,6 @@
 package com.data.server.dataserver.service.impl;
 
-import com.data.server.dataserver.dto.FieldDto;
-import com.data.server.dataserver.dto.PointDto;
-import com.data.server.dataserver.dto.SensorDto;
-import com.data.server.dataserver.dto.UserDto;
+import com.data.server.dataserver.dto.*;
 import com.data.server.dataserver.service.JsonRequestService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,8 +24,6 @@ public class RequestServiceImpl implements JsonRequestService {
         JSONObject jsonType = new JSONObject();
         JSONObject jsonAnswer = new JSONObject();
         JSONObject jsonSystemAns = new JSONObject();
-
-
 
         try {
             jsonType = (JSONObject) parser.parse(jsonMsg);
@@ -84,8 +79,6 @@ public class RequestServiceImpl implements JsonRequestService {
             for(SensorDto sensorDto : userDto.getCompanies().get(0).getSensors()) {
                 JSONObject jSonSensor = new JSONObject();
 
-
-
                 jSonSensor.put("id", sensorDto.getId());
                 jSonSensor.put("name", sensorDto.getName());
                 jSonSensor.put("latitude", sensorDto.getLatitude());
@@ -108,6 +101,29 @@ public class RequestServiceImpl implements JsonRequestService {
             }
             jsonAllSensorsAns.put("sensors", sensors);
             jsonAnswer.put("main", jsonAllSensorsAns);
+        }
+        if(UpdateCars.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
+            JSONObject allCarsAns = new JSONObject();
+            JSONArray  cars = new JSONArray();
+
+            jsonAnswer.put("type", UpdateCars.getJsonTypeNum());
+            jsonSystemAns.put("dt", 1569653340);
+            jsonAnswer.put("system", jsonSystemAns);
+
+            for(CarDto carDto : userDto.getCompanies().get(0).getCars()){
+                JSONObject jsonCar = new JSONObject();
+
+                jsonCar.put("id", carDto.getId());
+                jsonCar.put("name", carDto.getName());
+                jsonCar.put("latitude", carDto.getLatitude());
+                jsonCar.put("longitude", carDto.getLongitude());
+                jsonCar.put("speed", carDto.getSpeed());
+                jsonCar.put("lastUpdate", carDto.getLastUpdate().toString());
+
+                cars.add(jsonCar);
+            }
+            allCarsAns.put("cars", cars);
+            jsonAnswer.put("main", allCarsAns);
         }
 
         return jsonAnswer;

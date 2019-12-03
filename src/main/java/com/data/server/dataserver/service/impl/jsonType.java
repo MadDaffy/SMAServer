@@ -13,7 +13,8 @@ public enum jsonType {
 
     Authorization(1),
     UpdateFields(2),
-    UpdateSensors(3);
+    UpdateSensors(3),
+    UpdateCars(4);
 
     private int jsonTypeNum;
 

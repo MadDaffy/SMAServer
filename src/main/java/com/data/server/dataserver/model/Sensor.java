@@ -58,13 +58,13 @@ public class Sensor {
     @Column
     private Date lastUpdate;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "SENSOR_TO_COMPANY",
             joinColumns = {@JoinColumn(name = "SENSOR_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SENSOR_COMPANY_ID")})
     private List<Company> companies ;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "SENSOR_TO_FIELD",
             joinColumns = {@JoinColumn(name = "SENSOR_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SENSOR_FIELD_ID")})

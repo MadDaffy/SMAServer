@@ -82,6 +82,7 @@ public interface UserMapper {
         List<Field> fields = new ArrayList<>();
         List<Sensor> sensorsToFields = new ArrayList<>();
         List<Point> points = new ArrayList<>();
+        List<Car> cars = new ArrayList<>();
         for (CompanyDto companyDto : dto.getCompanies()) {
             Company company = new Company();
             company.setId(companyDto.getId());
@@ -135,6 +136,19 @@ public interface UserMapper {
 
                 sensorsToCompany.add(sensor);
             }
+
+            for(CarDto carDto : companyDto.getCars()){
+                Car car = new Car();
+                car.setId(carDto.getId());
+                car.setName(carDto.getName());
+                car.setLatitude(carDto.getLatitude());
+                car.setLongitude(carDto.getLongitude());
+                car.setSpeed(carDto.getSpeed());
+                car.setLastUpdate(carDto.getLastUpdate());
+
+                cars.add(car);
+            }
+            company.setCars(cars);
             company.setSensors(sensorsToCompany);
             company.setFields(fields);
             data.add(company);
@@ -163,6 +177,7 @@ public interface UserMapper {
         List<PointDto> pointsDto = new ArrayList<>();
         List<SensorDto> sensorsDtoToFields = new ArrayList<>();
         List<SensorDto> sensorsDtoToCompany = new ArrayList<>();
+        List<CarDto> carsDto = new ArrayList<>();
         for (Company company : model.getCompanies()) {
             CompanyDto companyDto = new CompanyDto();
             companyDto.setId(company.getId());
@@ -219,6 +234,18 @@ public interface UserMapper {
                 sensorsDtoToCompany.add(sensorDto);
             }
 
+            for(Car car : company.getCars()){
+                CarDto carDto = new CarDto();
+                carDto.setId(car.getId());
+                carDto.setName(car.getName());
+                carDto.setLatitude(car.getLatitude());
+                carDto.setLongitude(car.getLongitude());
+                carDto.setSpeed(car.getSpeed());
+                carDto.setLastUpdate(car.getLastUpdate());
+
+                carsDto.add(carDto);
+            }
+            companyDto.setCars(carsDto);
             companyDto.setSensors(sensorsDtoToCompany);
             companyDto.setFields(fieldsDto);
             data.add(companyDto);

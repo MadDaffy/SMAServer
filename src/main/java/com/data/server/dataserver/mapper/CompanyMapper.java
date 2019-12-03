@@ -3,14 +3,8 @@ package com.data.server.dataserver.mapper;
 import static java.util.Objects.isNull;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
-import com.data.server.dataserver.dto.CompanyDto;
-import com.data.server.dataserver.dto.FieldDto;
-import com.data.server.dataserver.dto.SensorDto;
-import com.data.server.dataserver.dto.UserDto;
-import com.data.server.dataserver.model.Company;
-import com.data.server.dataserver.model.Field;
-import com.data.server.dataserver.model.Sensor;
-import com.data.server.dataserver.model.User;
+import com.data.server.dataserver.dto.*;
+import com.data.server.dataserver.model.*;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -44,6 +38,7 @@ public interface CompanyMapper {
         fillUsers(companyDto, company);
         fillSensors(companyDto, company);
         fillFields(companyDto, company);
+        fillCars(companyDto, company);
 
         return company;
     }
@@ -61,6 +56,7 @@ public interface CompanyMapper {
         fillUsersDto(company, companyDto);
         fillSensorsDto(company, companyDto);
         fillFieldsDto(company, companyDto);
+        fillCarsDto(company, companyDto);
 
         return companyDto;
     }
@@ -232,7 +228,55 @@ public interface CompanyMapper {
         }
         dto.setFields(data);
     }
+    /**
+     * Update cars field from Dto after mapping.
+     *
+     * @param dto   dto object
+     * @param model model object
+     */
+    @AfterMapping
+    default void fillCars(CompanyDto dto,
+                            @MappingTarget Company model){
+        if(isNull(model) || isNull(dto)) {
+            return;
+        }
+        if (isEmpty(model.getCars())){
+            return;
+        }
 
+        List<Car> data = new ArrayList<>();
+        for(CarDto carDto : dto.getCars()){
+            Car car = new Car();
+            car.setId(carDto.getId());
+            car.setName(carDto.getName());
+            car.setLatitude(car.getLatitude());
+            car.setLongitude(carDto.getLongitude());
+            car.setSpeed(carDto.getSpeed());
+        }
+        model.setCars(data);
+    }
+
+    @AfterMapping
+    default void fillCarsDto(Company model,
+                               @MappingTarget CompanyDto dto){
+        if(isNull(model) || isNull(dto)){
+            return;
+        }
+        if (isEmpty(dto.getCars())){
+            return;
+        }
+
+        List<CarDto> data = new ArrayList<>();
+        for(Car car : model.getCars()){
+            CarDto carDto = new CarDto();
+            carDto.setId(car.getId());
+            carDto.setName(car.getName());
+            carDto.setLatitude(car.getLatitude());
+            carDto.setLongitude(car.getLongitude());
+            carDto.setSpeed(car.getSpeed());
+        }
+        dto.setCars(data);
+    }
 
 }
 

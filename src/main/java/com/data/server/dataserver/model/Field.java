@@ -35,15 +35,15 @@ public class Field {
     private double longitude;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "FIELD_TO_COMPANY",
             joinColumns = {@JoinColumn(name = "FIELD_ID")},
             inverseJoinColumns = {@JoinColumn(name = "FIELD_COMPANY_ID")})
     private List<Company> companies;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "fields")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "fields")
     private List<Sensor> sensors;
 
-    @OneToMany(fetch =  FetchType.EAGER, mappedBy = "field")
+    @OneToMany(fetch =  FetchType.LAZY, mappedBy = "field")
     private List<Point> points;
 }

@@ -2,13 +2,7 @@ package com.data.server.dataserver.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -33,12 +27,15 @@ public class Company {
     @Column
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
     private List<User> users;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
     private List<Field> fields;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
     private List<Sensor> sensors;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    private List<Car> cars;
 }

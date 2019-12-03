@@ -29,4 +29,6 @@ public class CompanyDto implements Serializable {
 
     private List<FieldDto> fields;
 
+    private List<CarDto> cars;
+
 }
