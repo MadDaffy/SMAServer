@@ -3,6 +3,7 @@ package com.data.server.dataserver.dao.impl;
 import com.data.server.dataserver.dao.SensorDao;
 import com.data.server.dataserver.dto.SensorDto;
 import com.data.server.dataserver.mapper.SensorMapper;
+import com.data.server.dataserver.model.Sensor;
 import com.data.server.dataserver.repository.SensorRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ public class SensorDaoImpl implements SensorDao {
 
     @Override
     @Transactional
-    public void updateSensor(SensorDto sensorDto) {
-        sensorRepository.saveAndFlush(sensorMapper.toSensor(sensorDto));
+    public void updateSensor(Sensor sensor) {
+        sensorRepository.saveAndFlush(sensor);
     }
 
     @Override
     @Transactional
-    public SensorDto findSensorById(Long id) {
-        return sensorMapper.toSensorDto(sensorRepository.getSensorById(id));
+    public Sensor findSensorById(Long id) {
+        return sensorRepository.getSensorById(id);
     }
 }

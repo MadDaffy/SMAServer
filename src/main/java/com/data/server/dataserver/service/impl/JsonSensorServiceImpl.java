@@ -1,6 +1,7 @@
 package com.data.server.dataserver.service.impl;
 
 import com.data.server.dataserver.dto.SensorDto;
+import com.data.server.dataserver.model.Sensor;
 import com.data.server.dataserver.service.JsonSensorService;
 import com.data.server.dataserver.service.SensorService;
 import org.json.simple.JSONObject;
@@ -27,7 +28,7 @@ public class JsonSensorServiceImpl implements JsonSensorService {
     public void parseSensorJson(String jsonSensor) throws ParseException {
 
 
-        SensorDto sensorDto = new SensorDto();
+        Sensor sensor = new Sensor();
         Date date;
         JSONParser parser = new JSONParser();
         JSONObject jsonType = null;
@@ -42,10 +43,10 @@ public class JsonSensorServiceImpl implements JsonSensorService {
 //            } catch (ParseException e) {
 //                e.printStackTrace();
 //            }
-            sensorDto = sensorService.findSensor( Long.parseLong(jsonMain.get("id").toString()));
+            sensor = sensorService.findSensor( Long.parseLong(jsonMain.get("id").toString()));
             date = new Date();
 
-            sensorService.updateSensor(SensorDto.builder()
+            sensorService.updateSensor(Sensor.builder()
                     .id( Long.parseLong(jsonMain.get("id").toString()))
                     .temperature( Double.parseDouble(jsonMain.get("temperature").toString()))
                     .humidity( Double.parseDouble(jsonMain.get("humidity").toString()))
@@ -53,11 +54,11 @@ public class JsonSensorServiceImpl implements JsonSensorService {
                     .battery(Short.parseShort( jsonMain.get("battery").toString()))
                     .gsmlvl(Double.parseDouble(jsonMain.get("gsmlvl").toString()))
                     .ground(jsonMain.get("ground").toString())
-                    .latitude(sensorDto.getLatitude())
-                    .longitude(sensorDto.getLongitude())
-                    .name(sensorDto.getName())
-                    .companies(sensorDto.getCompanies())
-                    .fields(sensorDto.getFields())
+                    .latitude(sensor.getLatitude())
+                    .longitude(sensor.getLongitude())
+                    .name(sensor.getName())
+                    .companies(sensor.getCompanies())
+                    .fields(sensor.getFields())
                     .lastUpdate(date)
                     .build());
 

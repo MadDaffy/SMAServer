@@ -1,6 +1,7 @@
 package com.data.server.dataserver.dao;
 
 import com.data.server.dataserver.dto.SensorDto;
+import com.data.server.dataserver.model.Sensor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SensorDao {
 
-    void updateSensor(SensorDto sensorDto);
-    SensorDto findSensorById(Long id);
+    void updateSensor(Sensor sensor);
+    Sensor findSensorById(Long id);
 
 }

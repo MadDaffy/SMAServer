@@ -1,6 +1,7 @@
 package com.data.server.dataserver.service;
 
 import com.data.server.dataserver.dto.SensorDto;
+import com.data.server.dataserver.model.Sensor;
 
 /**
  * SensorService
@@ -8,6 +9,6 @@ import com.data.server.dataserver.dto.SensorDto;
  * @author Dmitriy
  */
 public interface SensorService {
-    void updateSensor(SensorDto sensorDto);
-    SensorDto findSensor(Long id);
+    void updateSensor(Sensor sensor);
+    Sensor findSensor(Long id);
 }

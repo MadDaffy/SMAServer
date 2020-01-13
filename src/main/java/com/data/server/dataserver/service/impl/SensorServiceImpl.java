@@ -19,12 +19,12 @@ public class SensorServiceImpl implements SensorService {
     SensorDao sensorDao;
 
     @Override
-    public void updateSensor(SensorDto sensorDto) {
-        sensorDao.updateSensor(sensorDto);
+    public void updateSensor(Sensor sensor) {
+        sensorDao.updateSensor(sensor);
     }
 
     @Override
-    public SensorDto findSensor(Long id) {
+    public Sensor findSensor(Long id) {
         return sensorDao.findSensorById(id);
     }
 }
