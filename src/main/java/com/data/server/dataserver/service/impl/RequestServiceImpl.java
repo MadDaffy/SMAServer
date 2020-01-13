@@ -30,7 +30,7 @@ public class RequestServiceImpl implements JsonRequestService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println("Принятый JSON " + jsonType);
+//        System.out.println("Принятый JSON " + jsonType);
 
         if (UpdateFields.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
             JSONArray jsonArrayFields = new JSONArray();
@@ -89,7 +89,7 @@ public class RequestServiceImpl implements JsonRequestService {
                 jSonSensor.put("battery", sensorDto.getBattery());
                 jSonSensor.put("gsmlvl", sensorDto.getGsmlvl());
                 try {
-                    JSONObject jSonGround =(JSONObject)parser.parse(sensorDto.getGround());
+                    JSONObject jSonGround = (JSONObject)parser.parse(sensorDto.getGround());
                     jSonSensor.put("ground", jSonGround);
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -125,9 +125,11 @@ public class RequestServiceImpl implements JsonRequestService {
             allCarsAns.put("cars", cars);
             jsonAnswer.put("main", allCarsAns);
         }
-
+//
+//            if(AddField.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
+//
+//            }
         return jsonAnswer;
     }
-
 
 }

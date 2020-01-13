@@ -1,10 +1,7 @@
 package com.data.server.dataserver;
 
 import com.data.server.dataserver.server.DataServerRequestHandler;
-import com.data.server.dataserver.service.JsonAuthService;
-import com.data.server.dataserver.service.JsonRequestService;
-import com.data.server.dataserver.service.UserService;
-import com.data.server.dataserver.service.CompanyService;
+import com.data.server.dataserver.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -30,6 +27,9 @@ public class DataServerApplication implements CommandLineRunner {
     JsonAuthService jsonParseService;
     @Autowired
     JsonRequestService jsonRequestService;
+    @Autowired
+    JsonSensorService jsonSensorService;
+
 
     public static void main(String[] args) {
         SpringApplication.run(DataServerApplication.class, args);
@@ -45,7 +45,7 @@ public class DataServerApplication implements CommandLineRunner {
                 Socket socket = serverSocket.accept();
                 logger.info("new socket");
                 try {
-                   new DataServerRequestHandler(socket, userService, jsonParseService, jsonRequestService);
+                   new DataServerRequestHandler(socket, userService, jsonParseService, jsonRequestService, jsonSensorService);
                 } catch (IOException e) {
                     socket.close();
                     logger.error("socket closed");

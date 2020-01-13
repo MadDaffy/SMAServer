@@ -4,12 +4,14 @@ import com.data.server.dataserver.dao.CarDao;
 import com.data.server.dataserver.dto.CarDto;
 import com.data.server.dataserver.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * CarServiceImpl
  *
  * @author Dmitriy
  */
+@Service
 public class CarServiceImpl implements CarService {
     @Autowired
     CarDao carDao;

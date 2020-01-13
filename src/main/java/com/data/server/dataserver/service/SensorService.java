@@ -9,4 +9,5 @@ import com.data.server.dataserver.dto.SensorDto;
  */
 public interface SensorService {
     void updateSensor(SensorDto sensorDto);
+    SensorDto findSensor(Long id);
 }

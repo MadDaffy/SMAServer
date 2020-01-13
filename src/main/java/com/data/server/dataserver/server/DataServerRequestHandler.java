@@ -1,9 +1,9 @@
 package com.data.server.dataserver.server;
 
-import com.data.server.dataserver.service.JsonAuthService;
-import com.data.server.dataserver.service.JsonRequestService;
-import com.data.server.dataserver.service.UserService;
+import com.data.server.dataserver.service.*;
 import com.data.server.dataserver.service.impl.AuthUserAnswer;
+import com.data.server.dataserver.service.impl.JsonSensorServiceImpl;
+import com.data.server.dataserver.service.impl.TypeParserServiceImpl;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
@@ -28,12 +28,15 @@ public class DataServerRequestHandler extends Thread {
     private JsonRequestService jsonRequestService;
     JSONObject jsonAnswer = new JSONObject();
     AuthUserAnswer authUserAnswer = new AuthUserAnswer();
+    private JsonSensorService jsonSensorService;
+    private TypeParserServiceImpl typeParserService = new TypeParserServiceImpl();
 
 
-    public DataServerRequestHandler(Socket s, UserService userService, JsonAuthService jsonAuthService, JsonRequestService jsonRequestService) throws IOException {
+    public DataServerRequestHandler(Socket s, UserService userService, JsonAuthService jsonAuthService, JsonRequestService jsonRequestService, JsonSensorService jsonSensorService) throws IOException {
         this.userService = userService;
         this.jsonAuthService = jsonAuthService;
         this.jsonRequestService = jsonRequestService;
+        this.jsonSensorService = jsonSensorService;
         socket = s;
         in = new BufferedInputStream(socket.getInputStream());
         out = new BufferedWriter(
@@ -47,29 +50,35 @@ public class DataServerRequestHandler extends Thread {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String authQuery = bufferedReader.readLine();
-            if(authQuery==null){
-                System.out.println("disconnect at auth: "+ socket.getInetAddress().toString());
+            System.out.println(authQuery);
+            if (authQuery == null) {
+                System.out.println("disconnect at auth: " + socket.getInetAddress().toString());
                 throw new Exception("socket closed ");
             }
-            System.out.println(authQuery);
+
+            if(!typeParserService.isClient(authQuery)) {
+                jsonSensorService.parseSensorJson(authQuery);
+                socket.close();
+                return;
+            }
 
             authUserAnswer = jsonAuthService.parseJsonAndAuth(authQuery);
             System.out.println("jsonAnswer " + authUserAnswer.getJsonObject());
             out.write(authUserAnswer.getJsonObject().toJSONString());
             out.flush();
             while (true) {
-                System.out.println("Ждем запросов к бд");
+//                System.out.println("Ждем запросов к бд");
 
-                    String jsonQuery = bufferedReader.readLine();
-                    if(jsonQuery==null){
-                        System.out.println("disconnect at work: "+ socket.getInetAddress().toString());
-                        throw new Exception("socket closed ");
-                    }
+                String jsonQuery = bufferedReader.readLine();
+                if (jsonQuery == null) {
+                    System.out.println("disconnect at work: " + socket.getInetAddress().toString());
+                    throw new Exception("socket closed ");
+                }
                     System.out.println(jsonQuery);
-                    jsonAnswer = jsonRequestService.parseJsonAndRequest(jsonQuery, authUserAnswer.getUserDto());
-                    System.out.println("jsonAnswer " + jsonAnswer);
-                    out.write(jsonAnswer.toJSONString());
-                    out.flush();
+                jsonAnswer = jsonRequestService.parseJsonAndRequest(jsonQuery, authUserAnswer.getUserDto());
+                   System.out.println("jsonAnswer " + jsonAnswer);
+                out.write(jsonAnswer.toJSONString());
+                out.flush();
 
 
 //                userService.createUser(UserDto.builder()
@@ -80,6 +89,7 @@ public class DataServerRequestHandler extends Thread {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("Error::: " + e.getMessage());
         }
 

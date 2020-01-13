@@ -1,8 +1,10 @@
 package com.data.server.dataserver.service.impl;
 
 import com.data.server.dataserver.dto.CompanyDto;
+import com.data.server.dataserver.dto.SensorDto;
 import com.data.server.dataserver.dto.UserDto;
 import com.data.server.dataserver.service.JsonAuthService;
+import com.data.server.dataserver.service.SensorService;
 import com.data.server.dataserver.service.UserService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,10 +12,12 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import static com.data.server.dataserver.service.impl.jsonType.Authorization;
+import static com.data.server.dataserver.service.impl.jsonType.DataSensor;
 
 /**
  * JsonParseServiceImpl
@@ -25,10 +29,13 @@ public class AuthorizationServiceImpl implements JsonAuthService {
     @Autowired
     UserService userService;
 
+
+
     @Override
-    public AuthUserAnswer parseJsonAndAuth(String jsonMsg) throws Exception {
+    public AuthUserAnswer parseJsonAndAuth(String jsonMsg) throws ParseException {
         AuthUserAnswer authUserAnswer = new AuthUserAnswer();
         UserDto user = new UserDto();
+
 
         JSONParser parser = new JSONParser();
         JSONObject jsonType = null;
@@ -37,19 +44,16 @@ public class AuthorizationServiceImpl implements JsonAuthService {
         JSONObject jsonAnswer = new JSONObject();
         JSONObject jsonSystemAns = new JSONObject();
         JSONObject jsonMainAns = new JSONObject();
-        try {
-            jsonType = (JSONObject) parser.parse(jsonMsg);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Принятый JSON " + jsonType);
 
+        jsonType = (JSONObject) parser.parse(jsonMsg);
+
+//       System.out.println("Принятый JSON " + jsonType);
 
         if (Authorization.getJsonTypeNum() == Integer.parseInt(jsonType.get("type").toString())) {
-            System.out.println("jsonType Authorization");
+           System.out.println("jsonType Authorization");
             try {
                 jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
-                System.out.println("jsonMain: " + jsonMain);
+//                System.out.println("jsonMain: " + jsonMain);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -57,7 +61,7 @@ public class AuthorizationServiceImpl implements JsonAuthService {
             if (Objects.nonNull(user)) {
 
                 if ((jsonMain.get("password").equals(user.getPassword()))) {
-                    System.out.println("верный лог+пасс");
+//                    System.out.println("верный лог+пасс");
                     jsonAnswer.put("type", Authorization.getJsonTypeNum());
                     jsonSystemAns.put("dt", 1569653340);
                     jsonAnswer.put("system", jsonSystemAns);

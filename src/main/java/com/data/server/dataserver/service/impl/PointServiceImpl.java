@@ -4,12 +4,14 @@ import com.data.server.dataserver.dao.PointDao;
 import com.data.server.dataserver.dto.PointDto;
 import com.data.server.dataserver.service.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * PointServiceImpl
  *
  * @author Dmitriy
  */
+@Service
 public class PointServiceImpl implements PointService {
     @Autowired
     PointDao pointDao;

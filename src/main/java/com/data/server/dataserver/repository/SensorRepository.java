@@ -8,4 +8,5 @@ import com.data.server.dataserver.model.Sensor;
  * @author Dmitriy
  */
 public interface SensorRepository extends BaseRepository<Sensor, Long> {
+    Sensor getSensorById(Long id);
 }

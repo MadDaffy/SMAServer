@@ -26,6 +26,12 @@ public class SensorDaoImpl implements SensorDao {
     @Override
     @Transactional
     public void updateSensor(SensorDto sensorDto) {
-        sensorRepository.save(sensorMapper.toSensor(sensorDto));
+        sensorRepository.saveAndFlush(sensorMapper.toSensor(sensorDto));
+    }
+
+    @Override
+    @Transactional
+    public SensorDto findSensorById(Long id) {
+        return sensorMapper.toSensorDto(sensorRepository.getSensorById(id));
     }
 }
