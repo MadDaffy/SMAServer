@@ -1,6 +1,7 @@
 package com.data.server.dataserver.service;
 
 import com.data.server.dataserver.dto.FieldDto;
+import com.data.server.dataserver.model.Field;
 
 /**
  * FieldService
@@ -8,6 +9,9 @@ import com.data.server.dataserver.dto.FieldDto;
  * @author Dmitriy
  */
 public interface FieldService {
-    void updateField(FieldDto fieldDto);
-    void createField(FieldDto fieldDto);
+    void createField(Field field);
+    Field getFieldByName(String fieldName);
+    Long getCountField();
+    void updateField(Field field);
+
 }

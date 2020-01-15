@@ -50,20 +50,22 @@ public class DataServerRequestHandler extends Thread {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String authQuery = bufferedReader.readLine();
-            System.out.println(authQuery);
+
             if (authQuery == null) {
                 System.out.println("disconnect at auth: " + socket.getInetAddress().toString());
                 throw new Exception("socket closed ");
             }
 
             if(!typeParserService.isClient(authQuery)) {
+                System.out.println("Update Data Sensors request:: "+authQuery);
+
                 jsonSensorService.parseSensorJson(authQuery);
                 socket.close();
                 return;
             }
-
+            System.out.println("Authorization request:: " + authQuery);
             authUserAnswer = jsonAuthService.parseJsonAndAuth(authQuery);
-            System.out.println("jsonAnswer " + authUserAnswer.getJsonObject());
+            System.out.println("Authorization response:: " + authUserAnswer.getJsonObject());
             out.write(authUserAnswer.getJsonObject().toJSONString());
             out.flush();
             while (true) {
@@ -74,9 +76,9 @@ public class DataServerRequestHandler extends Thread {
                     System.out.println("disconnect at work: " + socket.getInetAddress().toString());
                     throw new Exception("socket closed ");
                 }
-                    System.out.println(jsonQuery);
-                jsonAnswer = jsonRequestService.parseJsonAndRequest(jsonQuery, authUserAnswer.getUserDto());
-                   System.out.println("jsonAnswer " + jsonAnswer);
+                    System.out.println("request:: "+jsonQuery);
+                jsonAnswer = jsonRequestService.parseJsonAndRequest(jsonQuery, authUserAnswer.getLogin());
+                   System.out.println("response:: " + jsonAnswer);
                 out.write(jsonAnswer.toJSONString());
                 out.flush();
 

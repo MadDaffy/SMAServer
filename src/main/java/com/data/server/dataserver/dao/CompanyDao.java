@@ -1,6 +1,7 @@
 package com.data.server.dataserver.dao;
 
 import com.data.server.dataserver.dto.CompanyDto;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * @author Dmitriy
  */
+@Repository
 public interface CompanyDao {
     void creatCompany(CompanyDto companyDto);
 }

@@ -8,4 +8,6 @@ import com.data.server.dataserver.model.Field;
  * @author Dmitriy
  */
 public interface FieldRepo extends BaseRepository<Field, Long> {
+    Field getFieldByName(String fieldName);
+
 }

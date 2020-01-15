@@ -2,6 +2,7 @@ package com.data.server.dataserver.service;
 
 import com.data.server.dataserver.dto.PointDto;
 import com.data.server.dataserver.dto.UserDto;
+import com.data.server.dataserver.model.Point;
 
 /**
  * PointService
@@ -9,7 +10,7 @@ import com.data.server.dataserver.dto.UserDto;
  * @author Dmitriy
  */
 public interface PointService {
-    void createPoint(PointDto pointDto);
+    Point createPoint(Point point);
+    void updatePoint(Point point);
 
-    void updatePoint(PointDto pointDto);
 }

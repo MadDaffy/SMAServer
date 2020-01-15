@@ -43,6 +43,8 @@ public interface CompanyMapper {
         return company;
     }
 
+    List<CompanyDto> toCompanyDtoList(List<Company> companies);
+
     default CompanyDto toCompanyDto(Company company) {
         if (company == null) {
             return null;
@@ -60,7 +62,7 @@ public interface CompanyMapper {
 
         return companyDto;
     }
-
+    List<Company> toCompanyList(List<CompanyDto> companiesDto);
     /**
      * Update users field from Dto after mapping.
      *

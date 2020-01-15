@@ -17,6 +17,6 @@ import org.json.simple.JSONObject;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthUserAnswer {
-    UserDto userDto;
+    String login;
     JSONObject jsonObject;
 }

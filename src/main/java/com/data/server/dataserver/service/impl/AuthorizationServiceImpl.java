@@ -26,10 +26,9 @@ import static com.data.server.dataserver.service.impl.jsonType.DataSensor;
  */
 @Service
 public class AuthorizationServiceImpl implements JsonAuthService {
+
     @Autowired
     UserService userService;
-
-
 
     @Override
     public AuthUserAnswer parseJsonAndAuth(String jsonMsg) throws ParseException {
@@ -50,7 +49,7 @@ public class AuthorizationServiceImpl implements JsonAuthService {
 //       System.out.println("Принятый JSON " + jsonType);
 
         if (Authorization.getJsonTypeNum() == Integer.parseInt(jsonType.get("type").toString())) {
-           System.out.println("jsonType Authorization");
+
             try {
                 jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
 //                System.out.println("jsonMain: " + jsonMain);
@@ -85,7 +84,7 @@ public class AuthorizationServiceImpl implements JsonAuthService {
             System.out.println("Неверный тип запроса!!!");
         }
         authUserAnswer.setJsonObject(jsonAnswer);
-        authUserAnswer.setUserDto(user);
+        authUserAnswer.setLogin(user.getLogin());
         return authUserAnswer;
 
     }

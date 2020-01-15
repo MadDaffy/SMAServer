@@ -20,7 +20,7 @@ import javax.persistence.*;
 public class Point {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -29,7 +29,7 @@ public class Point {
     @Column
     private double longitude;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "FIELD_ID")
     private Field field;
 }

@@ -19,12 +19,22 @@ public class FieldServiceImpl implements FieldService  {
     FieldDao fieldDao;
 
     @Override
-    public void updateField(FieldDto fieldDto) {
-        fieldDao.updateField(fieldDto);
+    public void createField(Field field) {
+        fieldDao.createField(field);
     }
 
     @Override
-    public void createField(FieldDto fieldDto) {
-        fieldDao.createField(fieldDto);
+    public Field getFieldByName(String fieldName) {
+        return fieldDao.getFieldByName(fieldName);
+    }
+
+    @Override
+    public Long getCountField() {
+        return fieldDao.getCountField();
+    }
+
+    @Override
+    public void updateField(Field field) {
+         fieldDao.updateField(field);
     }
 }

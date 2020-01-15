@@ -1,12 +1,25 @@
 package com.data.server.dataserver.service.impl;
 
+import com.data.server.dataserver.dao.FieldDao;
+import com.data.server.dataserver.dao.PointDao;
 import com.data.server.dataserver.dto.*;
+import com.data.server.dataserver.mapper.CompanyMapper;
+import com.data.server.dataserver.model.Field;
+import com.data.server.dataserver.model.Point;
+import com.data.server.dataserver.service.FieldService;
 import com.data.server.dataserver.service.JsonRequestService;
+import com.data.server.dataserver.service.PointService;
+import com.data.server.dataserver.service.UserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.data.server.dataserver.service.impl.jsonType.*;
 
@@ -17,8 +30,18 @@ import static com.data.server.dataserver.service.impl.jsonType.*;
  */
 @Service
 public class RequestServiceImpl implements JsonRequestService {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    FieldService fieldService;
+
+    @Autowired
+    PointService pointService;
+
     @Override
-    public JSONObject parseJsonAndRequest(String jsonMsg, UserDto userDto) {
+    public JSONObject parseJsonAndRequest(String jsonMsg, String login) throws ParseException {
 
         JSONParser parser = new JSONParser();
         JSONObject jsonType = new JSONObject();
@@ -31,6 +54,8 @@ public class RequestServiceImpl implements JsonRequestService {
             e.printStackTrace();
         }
 //        System.out.println("Принятый JSON " + jsonType);
+
+        UserDto userDto = userService.getUserByLogin(login);
 
         if (UpdateFields.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
             JSONArray jsonArrayFields = new JSONArray();
@@ -124,6 +149,50 @@ public class RequestServiceImpl implements JsonRequestService {
             }
             allCarsAns.put("cars", cars);
             jsonAnswer.put("main", allCarsAns);
+        }
+
+        if(AddField.getJsonTypeNum() == Integer.parseInt(jsonType.get("type").toString())){
+            JSONObject jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
+            JSONArray location = (JSONArray) parser.parse(jsonMain.get("location").toString());
+            JSONObject center = (JSONObject) parser.parse(jsonMain.get("center").toString());
+            CompanyMapper companyMapper = Mappers.getMapper(CompanyMapper.class);
+            List<Point> pointsList = new ArrayList<>();
+            Field field = new Field();
+
+            for(int i = 0; i<location.size(); i++) {
+                Point point = new Point();
+                JSONObject jPoint = (JSONObject) location.get(i);
+                point.setLongitude(Double.parseDouble(jPoint.get("longitude").toString()));
+                point.setLatitude(Double.parseDouble(jPoint.get("latitude").toString()));
+
+                pointsList.add(point);
+            }
+//          field.setId(fieldService.getCountField()+1);
+            field.setName(jsonMain.get("name").toString());
+            field.setLongitude(Double.parseDouble(center.get("longitude").toString()));
+            field.setLatitude(Double.parseDouble(center.get("latitude").toString()));
+            fieldService.createField(field);
+            field = fieldService.getFieldByName(field.getName());
+            field.setCompanies(companyMapper.toCompanyList(userDto.getCompanies()));
+            fieldService.updateField(field);
+                for(Point point : pointsList){
+                    Point point1 = pointService.createPoint(point);
+                    point1.setField(fieldService.getFieldByName(field.getName()));
+                    pointService.updatePoint(point1);
+                }
+
+//            fieldService.createField(Field.builder()
+//                    .name(jsonMain.get("name").toString())
+//                    .latitude(Double.parseDouble(center.get("latitude").toString()))
+//                    .longitude(Double.parseDouble(center.get("longitude").toString()))
+//                    .companies(companyMapper.toCompanyList(userDto.getCompanies()))
+//                    .points(pointsList)
+//                    .build());
+
+            jsonAnswer.put("answer", "Add field successful");
+
+//            JSONObject point = (JSONObject) parser.parse(jsonType.get("main").toString());
+
         }
 //
 //            if(AddField.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
