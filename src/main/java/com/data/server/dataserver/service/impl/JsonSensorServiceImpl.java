@@ -54,6 +54,8 @@ public class JsonSensorServiceImpl implements JsonSensorService {
                     .battery(Short.parseShort( jsonMain.get("battery").toString()))
                     .gsmlvl(Double.parseDouble(jsonMain.get("gsmlvl").toString()))
                     .ground(jsonMain.get("ground").toString())
+                    .windSpeed(Double.parseDouble(jsonMain.get("windSpeed").toString()))
+                    .windDirection(Double.parseDouble(jsonMain.get("windDirection").toString()))
                     .latitude(sensor.getLatitude())
                     .longitude(sensor.getLongitude())
                     .name(sensor.getName())

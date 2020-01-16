@@ -150,6 +150,8 @@ public interface CompanyMapper {
             sensor.setLastUpdate(sensorDto.getLastUpdate());
             sensor.setPressure(sensorDto.getPressure());
             sensor.setTemperature(sensorDto.getTemperature());
+            sensor.setWindSpeed(sensorDto.getWindSpeed());
+            sensor.setWindDirection(sensorDto.getWindDirection());
 
         }
         model.setSensors(data);
@@ -179,6 +181,8 @@ public interface CompanyMapper {
             sensorDto.setLastUpdate(sensor.getLastUpdate());
             sensorDto.setPressure(sensor.getPressure());
             sensorDto.setTemperature(sensor.getTemperature());
+            sensorDto.setWindSpeed(sensor.getWindSpeed());
+            sensorDto.setWindDirection(sensor.getWindDirection());
             }
         dto.setSensors(data);
         }

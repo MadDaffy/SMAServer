@@ -52,6 +52,12 @@ public class Sensor {
     private double gsmlvl;
 
     @Column
+    private double windSpeed;
+
+    @Column
+    private double windDirection;
+
+    @Column
     @Lob @Type(type = "org.hibernate.type.TextType")
     private String ground;
 

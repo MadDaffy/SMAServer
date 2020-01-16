@@ -106,6 +106,8 @@ public interface UserMapper {
                     sensor.setLastUpdate(sensorDto.getLastUpdate());
                     sensor.setPressure(sensorDto.getPressure());
                     sensor.setTemperature(sensorDto.getTemperature());
+                    sensor.setWindSpeed(sensorDto.getWindSpeed());
+                    sensor.setWindDirection(sensorDto.getWindDirection());
 
                     sensorsToFields.add(sensor);
                 }
@@ -133,6 +135,8 @@ public interface UserMapper {
                 sensor.setLastUpdate(sensorDto.getLastUpdate());
                 sensor.setPressure(sensorDto.getPressure());
                 sensor.setTemperature(sensorDto.getTemperature());
+                sensor.setWindSpeed(sensorDto.getWindSpeed());
+                sensor.setWindDirection(sensorDto.getWindDirection());
 
                 sensorsToCompany.add(sensor);
             }
@@ -202,6 +206,8 @@ public interface UserMapper {
                     sensorDto.setLastUpdate(sensor.getLastUpdate());
                     sensorDto.setPressure(sensor.getPressure());
                     sensorDto.setTemperature(sensor.getTemperature());
+                    sensorDto.setWindSpeed(sensor.getWindSpeed());
+                    sensorDto.setWindDirection(sensor.getWindDirection());
 
                     sensorsDtoToFields.add(sensorDto);
                 }
@@ -231,6 +237,8 @@ public interface UserMapper {
                 sensorDto.setLastUpdate(sensor.getLastUpdate());
                 sensorDto.setPressure(sensor.getPressure());
                 sensorDto.setTemperature(sensor.getTemperature());
+                sensorDto.setWindSpeed(sensor.getWindSpeed());
+                sensorDto.setWindDirection(sensor.getWindDirection());
 
                 sensorsDtoToCompany.add(sensorDto);
             }

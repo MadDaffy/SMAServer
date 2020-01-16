@@ -42,6 +42,8 @@ public interface SensorMapper {
         sensor.setLastUpdate(sensorDto.getLastUpdate());
         sensor.setPressure(sensorDto.getPressure());
         sensor.setTemperature(sensorDto.getTemperature());
+        sensor.setWindSpeed(sensorDto.getWindSpeed());
+        sensor.setWindDirection(sensorDto.getWindDirection());
 
         fillCompanies(sensorDto, sensor);
         fillFields(sensorDto, sensor);
@@ -66,6 +68,8 @@ public interface SensorMapper {
         sensorDto.setLastUpdate(sensor.getLastUpdate());
         sensorDto.setPressure(sensor.getPressure());
         sensorDto.setTemperature(sensor.getTemperature());
+        sensorDto.setWindSpeed(sensor.getWindSpeed());
+        sensorDto.setWindDirection(sensor.getWindDirection());
 
         fillCompaniesDto(sensor, sensorDto);
         fillFieldsDto(sensor, sensorDto);
@@ -120,6 +124,8 @@ public interface SensorMapper {
                     sensor.setLastUpdate(sensorDto.getLastUpdate());
                     sensor.setPressure(sensorDto.getPressure());
                     sensor.setTemperature(sensorDto.getTemperature());
+                    sensor.setWindSpeed(sensorDto.getWindSpeed());
+                    sensor.setWindDirection(sensorDto.getWindDirection());
 
                     sensorsToFields.add(sensor);
                 }
@@ -147,6 +153,8 @@ public interface SensorMapper {
                 sensor.setLastUpdate(sensorDto.getLastUpdate());
                 sensor.setPressure(sensorDto.getPressure());
                 sensor.setTemperature(sensorDto.getTemperature());
+                sensor.setWindSpeed(sensorDto.getWindSpeed());
+                sensor.setWindDirection(sensorDto.getWindDirection());
 
                 sensorsToCompany.add(sensor);
             }
@@ -187,17 +195,18 @@ public interface SensorMapper {
         }
 
         List<CompanyDto> data = new ArrayList<>();
-        List<FieldDto> fieldsDto = new ArrayList<>();
-        List<PointDto> pointsDto = new ArrayList<>();
-        List<SensorDto> sensorsDtoToFields = new ArrayList<>();
-        List<SensorDto> sensorsDtoToCompany = new ArrayList<>();
+
         List<CarDto> carsDto = new ArrayList<>();
         for (Company company : model.getCompanies()) {
             CompanyDto companyDto = new CompanyDto();
+            List<FieldDto> fieldsDto = new ArrayList<>();
+            List<SensorDto> sensorsDtoToCompany = new ArrayList<>();
             companyDto.setId(company.getId());
             companyDto.setName(company.getName());
             for(Field field : company.getFields()){
                 FieldDto fieldDto = new FieldDto();
+                List<PointDto> pointsDto = new ArrayList<>();
+                List<SensorDto> sensorsDtoToFields = new ArrayList<>();
                 fieldDto.setName(field.getName());
                 fieldDto.setId(field.getId());
                 fieldDto.setLatitude(field.getLatitude());
@@ -215,6 +224,8 @@ public interface SensorMapper {
                     sensorDto.setLastUpdate(sensor.getLastUpdate());
                     sensorDto.setPressure(sensor.getPressure());
                     sensorDto.setTemperature(sensor.getTemperature());
+                    sensorDto.setWindSpeed(sensor.getWindSpeed());
+                    sensorDto.setWindDirection(sensor.getWindDirection());
 
                     sensorsDtoToFields.add(sensorDto);
                 }
@@ -244,6 +255,8 @@ public interface SensorMapper {
                 sensorDto.setLastUpdate(sensor.getLastUpdate());
                 sensorDto.setPressure(sensor.getPressure());
                 sensorDto.setTemperature(sensor.getTemperature());
+                sensorDto.setWindSpeed(sensor.getWindSpeed());
+                sensorDto.setWindDirection(sensor.getWindDirection());
 
                 sensorsDtoToCompany.add(sensorDto);
             }
@@ -266,6 +279,7 @@ public interface SensorMapper {
         }
         dto.setCompanies(data);
     }
+
 
     /**
      * Update fields field from Dto after mapping.
@@ -304,6 +318,8 @@ public interface SensorMapper {
                 sensor.setLastUpdate(sensorDto.getLastUpdate());
                 sensor.setPressure(sensorDto.getPressure());
                 sensor.setTemperature(sensorDto.getTemperature());
+                sensor.setWindSpeed(sensorDto.getWindSpeed());
+                sensor.setWindDirection(sensorDto.getWindDirection());
 
                 sensors.add(sensor);
             }
@@ -344,6 +360,8 @@ public interface SensorMapper {
                 sensorDto.setLastUpdate(sensor.getLastUpdate());
                 sensorDto.setPressure(sensor.getPressure());
                 sensorDto.setTemperature(sensor.getTemperature());
+                sensorDto.setWindSpeed(sensor.getWindSpeed());
+                sensorDto.setWindDirection(sensor.getWindDirection());
                 sensors.add(sensorDto);
             }
             fieldDto.setSensors(sensors);

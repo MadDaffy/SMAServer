@@ -113,6 +113,8 @@ public class RequestServiceImpl implements JsonRequestService {
                 jSonSensor.put("pressure", sensorDto.getPressure());
                 jSonSensor.put("battery", sensorDto.getBattery());
                 jSonSensor.put("gsmlvl", sensorDto.getGsmlvl());
+                jSonSensor.put("windSpeed", sensorDto.getWindSpeed());
+                jSonSensor.put("windDirection", sensorDto.getWindDirection());
                 try {
                     JSONObject jSonGround = (JSONObject)parser.parse(sensorDto.getGround());
                     jSonSensor.put("ground", jSonGround);

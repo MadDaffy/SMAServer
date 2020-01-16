@@ -2,6 +2,7 @@ package com.data.server.dataserver.dto;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +42,9 @@ public class SensorDto implements Serializable {
 
     private Date lastUpdate;
 
+    private double windSpeed;
+
+    private double windDirection;
 
     private List<CompanyDto> companies;
 
