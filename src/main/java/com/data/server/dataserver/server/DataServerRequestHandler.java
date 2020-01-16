@@ -50,7 +50,7 @@ public class DataServerRequestHandler extends Thread {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String authQuery = bufferedReader.readLine();
-
+            System.out.println(authQuery);
             if (authQuery == null) {
                 System.out.println("disconnect at auth: " + socket.getInetAddress().toString());
                 throw new Exception("socket closed ");
@@ -61,6 +61,7 @@ public class DataServerRequestHandler extends Thread {
 
                 jsonSensorService.parseSensorJson(authQuery);
                 socket.close();
+                System.out.println("Sensor socket "+socket.getInetAddress().toString()+ " closed");
                 return;
             }
             System.out.println("Authorization request:: " + authQuery);

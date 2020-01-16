@@ -16,6 +16,7 @@ public enum jsonType {
     UpdateSensors(3),
     UpdateCars(4),
     AddField(5),
+    HistorySensors(6),
     DataSensor(7);
 
     private int jsonTypeNum;

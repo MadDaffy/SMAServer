@@ -6,10 +6,8 @@ import com.data.server.dataserver.dto.*;
 import com.data.server.dataserver.mapper.CompanyMapper;
 import com.data.server.dataserver.model.Field;
 import com.data.server.dataserver.model.Point;
-import com.data.server.dataserver.service.FieldService;
-import com.data.server.dataserver.service.JsonRequestService;
-import com.data.server.dataserver.service.PointService;
-import com.data.server.dataserver.service.UserService;
+import com.data.server.dataserver.model.SensorHistory;
+import com.data.server.dataserver.service.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.data.server.dataserver.service.impl.jsonType.*;
@@ -39,6 +38,9 @@ public class RequestServiceImpl implements JsonRequestService {
 
     @Autowired
     PointService pointService;
+
+    @Autowired
+    SensorHistoryService sensorHistoryService;
 
     @Override
     public JSONObject parseJsonAndRequest(String jsonMsg, String login) throws ParseException {
@@ -183,15 +185,78 @@ public class RequestServiceImpl implements JsonRequestService {
                     pointService.updatePoint(point1);
                 }
 
-
             jsonAnswer.put("answer", "Add field successful");
 
-
         }
-//
-//            if(AddField.getJsonTypeNum()==Integer.parseInt(jsonType.get("type").toString())){
-//
-//            }
+        if (HistorySensors.getJsonTypeNum() == Integer.parseInt(jsonType.get("type").toString())){
+            JSONObject jsonMain = (JSONObject) parser.parse(jsonType.get("main").toString());
+
+            JSONArray historyList = new JSONArray();
+            JSONObject jsonMainAns = new JSONObject();
+
+            List<SensorHistory> sensorHistoryList = sensorHistoryService.getAllSensorHistoryByIdSensor(Long.parseLong(jsonMain.get("target_id").toString()));
+            jsonAnswer.put("type", HistorySensors.getJsonTypeNum());
+            jsonSystemAns.put("dt", 1569653340);
+            jsonAnswer.put("system", jsonSystemAns);
+            jsonMainAns.put("target_id", sensorHistoryList.get(0).getIdSensor());
+            jsonMainAns.put("property", jsonMain.get("property"));
+            for(SensorHistory sensorHistory : sensorHistoryList) {
+                    JSONObject history = new JSONObject();
+                    switch (jsonMain.get("property").toString()){
+                        case "temperature" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getTemperature());
+
+                            historyList.add(history);
+                            break;
+                        case "humidity" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getHumidity());
+
+                            historyList.add(history);
+                            break;
+
+                        case "pressure" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getPressure());
+
+                            historyList.add(history);
+                            break;
+
+                        case "battery" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getBattery());
+
+                            historyList.add(history);
+                            break;
+
+                        case "gsmlvl" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getGsmlvl());
+
+                            historyList.add(history);
+                            break;
+
+                        case "windSpeed" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getWindSpeed());
+
+                            historyList.add(history);
+                            break;
+
+                        case "windDirection" :
+                            history.put("dt", sensorHistory.getTimeUpdate().toString());
+                            history.put("value", sensorHistory.getWindDirection());
+
+                            historyList.add(history);
+                            break;
+
+                    }
+
+            }
+            jsonMainAns.put("history", historyList);
+            jsonAnswer.put("main", jsonMainAns);
+        }
         return jsonAnswer;
     }
 

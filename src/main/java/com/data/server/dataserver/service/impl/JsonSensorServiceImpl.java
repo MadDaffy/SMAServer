@@ -1,8 +1,11 @@
 package com.data.server.dataserver.service.impl;
 
+import com.data.server.dataserver.dao.SensorHistoryDao;
 import com.data.server.dataserver.dto.SensorDto;
 import com.data.server.dataserver.model.Sensor;
+import com.data.server.dataserver.model.SensorHistory;
 import com.data.server.dataserver.service.JsonSensorService;
+import com.data.server.dataserver.service.SensorHistoryService;
 import com.data.server.dataserver.service.SensorService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,12 +26,14 @@ import static com.data.server.dataserver.service.impl.jsonType.DataSensor;
 public class JsonSensorServiceImpl implements JsonSensorService {
     @Autowired
     SensorService sensorService;
+    @Autowired
+    SensorHistoryService sensorHistoryService;
 
     @Override
     public void parseSensorJson(String jsonSensor) throws ParseException {
 
-
-        Sensor sensor = new Sensor();
+        SensorHistory sensorHistory;
+        Sensor sensor;
         Date date;
         JSONParser parser = new JSONParser();
         JSONObject jsonType = null;
@@ -43,6 +48,7 @@ public class JsonSensorServiceImpl implements JsonSensorService {
 //            } catch (ParseException e) {
 //                e.printStackTrace();
 //            }
+
             sensor = sensorService.findSensor( Long.parseLong(jsonMain.get("id").toString()));
             date = new Date();
 
@@ -62,6 +68,19 @@ public class JsonSensorServiceImpl implements JsonSensorService {
                     .companies(sensor.getCompanies())
                     .fields(sensor.getFields())
                     .lastUpdate(date)
+                    .build());
+
+            sensorHistoryService.createSensorHistory(SensorHistory.builder()
+                    .idSensor( Long.parseLong(jsonMain.get("id").toString()))
+                    .temperature( Double.parseDouble(jsonMain.get("temperature").toString()))
+                    .humidity( Double.parseDouble(jsonMain.get("humidity").toString()))
+                    .pressure( Double.parseDouble(jsonMain.get("pressure").toString()))
+                    .battery(Short.parseShort( jsonMain.get("battery").toString()))
+                    .gsmlvl(Double.parseDouble(jsonMain.get("gsmlvl").toString()))
+                    .ground(jsonMain.get("ground").toString())
+                    .windSpeed(Double.parseDouble(jsonMain.get("windSpeed").toString()))
+                    .windDirection(Double.parseDouble(jsonMain.get("windDirection").toString()))
+                    .timeUpdate(date)
                     .build());
 
         }
