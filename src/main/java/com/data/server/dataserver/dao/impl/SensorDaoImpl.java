@@ -34,6 +34,7 @@ public class SensorDaoImpl implements SensorDao {
     @Override
     @Transactional
     public Sensor findSensorById(Long id) {
+
         return sensorRepository.getSensorById(id);
     }
 }

@@ -12,11 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FieldDao {
 
-    void createField(Field field);
+    Field createField(Field field);
 
-    void updateField(Field field);
+    Field updateField(Field field);
 
-    Field getFieldByName(String fieldName);
-
-    Long getCountField();
 }

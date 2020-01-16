@@ -173,17 +173,18 @@ public interface UserMapper {
         }
 
         List<CompanyDto> data = new ArrayList<>();
-        List<FieldDto> fieldsDto = new ArrayList<>();
-        List<PointDto> pointsDto = new ArrayList<>();
-        List<SensorDto> sensorsDtoToFields = new ArrayList<>();
-        List<SensorDto> sensorsDtoToCompany = new ArrayList<>();
+
         List<CarDto> carsDto = new ArrayList<>();
         for (Company company : model.getCompanies()) {
             CompanyDto companyDto = new CompanyDto();
+            List<FieldDto> fieldsDto = new ArrayList<>();
+            List<SensorDto> sensorsDtoToCompany = new ArrayList<>();
             companyDto.setId(company.getId());
             companyDto.setName(company.getName());
             for(Field field : company.getFields()){
                 FieldDto fieldDto = new FieldDto();
+                List<PointDto> pointsDto = new ArrayList<>();
+                List<SensorDto> sensorsDtoToFields = new ArrayList<>();
                 fieldDto.setName(field.getName());
                 fieldDto.setId(field.getId());
                 fieldDto.setLatitude(field.getLatitude());

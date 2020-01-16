@@ -9,9 +9,7 @@ import com.data.server.dataserver.model.Field;
  * @author Dmitriy
  */
 public interface FieldService {
-    void createField(Field field);
-    Field getFieldByName(String fieldName);
-    Long getCountField();
-    void updateField(Field field);
+    Field createField(Field field);
+    Field updateField(Field field);
 
 }

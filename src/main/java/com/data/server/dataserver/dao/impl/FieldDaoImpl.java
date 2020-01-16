@@ -29,25 +29,17 @@ public class FieldDaoImpl implements FieldDao {
 
     @Override
     @Transactional
-    public void createField(Field field) {
-        fieldRepository.saveAndFlush(field);
+    public Field createField(Field field) {
+        Field field1;
+       field1 = fieldRepository.save(field);
+       return field1;
     }
 
     @Override
     @Transactional
-    public void updateField(Field field) {
-        fieldRepository.saveAndFlush(field);
-    }
-
-    @Override
-    @Transactional
-    public Field getFieldByName(String fieldName) {
-        return fieldRepository.getFieldByName(fieldName);
-    }
-
-    @Override
-    @Transactional
-    public Long getCountField() {
-        return fieldRepository.count();
+    public Field updateField(Field field) {
+        Field field2;
+        field2 = fieldRepository.saveAndFlush(field);
+        return field2;
     }
 }

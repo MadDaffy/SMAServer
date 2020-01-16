@@ -86,7 +86,7 @@ public class RequestServiceImpl implements JsonRequestService {
                 jsonField.put("temperature", averageValueOfSensors.getTemperature());
                 jsonField.put("humidity", averageValueOfSensors.getHumidity());
                 jsonField.put("pressure", averageValueOfSensors.getPressure());
-                jsonField.put("lastUpdate", fieldDto.getSensors().get(0).getLastUpdate().toString());
+//                jsonField.put("lastUpdate", fieldDto.getSensors().get(0).getLastUpdate().toString());
 
                 jsonArrayFields.add(jsonField);
             }
@@ -167,31 +167,23 @@ public class RequestServiceImpl implements JsonRequestService {
 
                 pointsList.add(point);
             }
-//          field.setId(fieldService.getCountField()+1);
+
             field.setName(jsonMain.get("name").toString());
             field.setLongitude(Double.parseDouble(center.get("longitude").toString()));
             field.setLatitude(Double.parseDouble(center.get("latitude").toString()));
-            fieldService.createField(field);
-            field = fieldService.getFieldByName(field.getName());
-            field.setCompanies(companyMapper.toCompanyList(userDto.getCompanies()));
-            fieldService.updateField(field);
+            Field field1;
+            field1 = fieldService.createField(field);
+            field1.setCompanies(companyMapper.toCompanyList(userDto.getCompanies()));
+            Field field2 = fieldService.updateField(field1);
                 for(Point point : pointsList){
                     Point point1 = pointService.createPoint(point);
-                    point1.setField(fieldService.getFieldByName(field.getName()));
+                    point1.setField(field2);
                     pointService.updatePoint(point1);
                 }
 
-//            fieldService.createField(Field.builder()
-//                    .name(jsonMain.get("name").toString())
-//                    .latitude(Double.parseDouble(center.get("latitude").toString()))
-//                    .longitude(Double.parseDouble(center.get("longitude").toString()))
-//                    .companies(companyMapper.toCompanyList(userDto.getCompanies()))
-//                    .points(pointsList)
-//                    .build());
 
             jsonAnswer.put("answer", "Add field successful");
 
-//            JSONObject point = (JSONObject) parser.parse(jsonType.get("main").toString());
 
         }
 //
